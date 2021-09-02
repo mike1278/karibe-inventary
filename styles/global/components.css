@@ -1,0 +1,84 @@
+@tailwind components;
+
+.c,
+.c-lg {
+	@apply px-6;
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@screen lg {
+	.c {
+		width: 80%;
+	}
+	.c-lg {
+		width: 90%;
+	}
+}
+
+.input {
+	@apply p-2;
+	@apply border-b;
+	@apply border-x-gray-300;
+	@apply bg-transparent;
+}
+
+select:required:invalid {
+	color: #a9a9a9;
+}
+
+input[type="color"] {
+	width: 20px;
+	height: 20px;
+	border-radius: 3px;
+}
+
+input[type="color"]::-webkit-color-swatch {
+	border-radius: 3px;
+	padding: 0;
+	@apply border;
+	@apply border-x-gray-300;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+	border-radius: 3px;
+	padding: 0;
+	@apply border;
+	@apply border-x-gray-300;
+}
+
+.input:focus {
+	outline: none;
+	@apply border-fg-primary;
+	@apply text-black;
+}
+
+.input-label {
+	@apply text-xs;
+	@apply text-fg-primary;
+	@apply font-bold;
+}
+
+.t-p {
+	font-size: 1rem;
+}
+
+.t-h1,
+.t-h2,
+.t-h3 {
+	@apply leading-none;
+	font-weight: bold;
+}
+
+.t-h1 {
+	font-size: 2.5rem;
+}
+
+.t-h2 {
+	font-size: 2rem;
+}
+
+.t-h3 {
+	font-size: 1.33rem;
+}

@@ -1,0 +1,188 @@
+import { Button } from '@/components/button'
+import Link from '@/components/canonical-link'
+import { PageWithLayout } from '@/components/page'
+import Viewport, { setAnim } from '@/components/viewport'
+import { useInput } from '@/lib/hooks'
+import { useUser } from '@/models/auth/user'
+
+const ProfileSettings: PageWithLayout = () => {
+  const [session] = useUser()
+  const { user } = session
+  const { value: name, bind: bindName } = useInput(user?.name)
+  const { value: email, bind: bindEmail } = useInput(user?.email)
+  const { value: username, bind: bindUsername } = useInput(user?.username)
+
+  const { value: pwd, bind: bindPwd, reset: resetPwd } = useInput('')
+  const { value: rePwd, bind: bindRePwd, reset: resetRePwd } = useInput('')
+
+  const updateUser = (e) => {
+    e.preventDefault()
+    fetch(`/api/users/${user.id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        name,
+        email,
+        username,
+      })
+    })
+  }
+
+  const updateAccount = (e) => {
+    e.preventDefault()
+    if (pwd !== rePwd) {
+      alert('Las contraseñas deben ser iguales')
+      return
+    }
+    fetch(`/api/users/${user.id}/account`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        password: pwd,
+      })
+    }).then((res) => {
+      if (res.ok) {
+        resetPwd()
+        resetRePwd()
+      }
+    })
+  }
+
+  return (
+    <div className="py-4 c-lg">
+      <div className="flex text-xs w-full pb-6 uppercase">
+        <Link href="/" className="hover:underline">
+          Ir al dashboard
+        </Link>
+      </div>
+      <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
+        <div className="flex flex-col space-y-12">
+          <div className="flex mb-4 items-center sm:mb-0">
+            <h2 className="font-bold leading-normal text-2xl">
+              Configuración de la cuenta
+            </h2>
+          </div>
+
+          <div className="flex flex-col space-y-12 w-full justify-center items-center sm:flex-row sm:space-y-0 sm:space-x-12">
+            <div className="bg-bg-secondary rounded-xl shadow-lg w-full p-4 animate sm:w-auto">
+              <div className="flex flex-col">
+                <div
+                  className="cursor-pointer mx-auto mb-6 overflow-hidden"
+                >
+                  {user?.image ? (
+                    <img
+                      src={user.image}
+                      width={42}
+                      height={42}
+                      className="border bg-gray-300 border-x-gray-600 rounded-[50%] h-[42px] w-[42px]"
+                    />
+                  ) : (
+                    <div className="bg-gradient-to-br border from-green-400 to-purple-300 border-x-gray-600 rounded-[50%] h-[128px] w-[128px]" />
+                  )}
+                </div>
+
+                <form
+                  className="flex flex-col"
+                  onSubmit={updateUser}
+                >
+                  <fieldset className="flex flex-col mb-4 animate" style={setAnim({ d: '100ms' })}>
+                    <label htmlFor="name" className="input-label">Nombre y apellido</label>
+                    <input
+                      type="text"
+                      required
+                      className="w-full input sm:w-64"
+                      id="name"
+                      placeholder="Ex. Victor Campos"
+                      {...bindName}
+                    />
+                  </fieldset>
+
+                  <fieldset className="flex flex-col mb-4 animate" style={setAnim({ d: '200ms' })}>
+                    <label htmlFor="email" className="input-label">Email</label>
+                    <input
+                      type="email"
+                      required
+                      className="w-full input sm:w-64"
+                      id="email"
+                      placeholder="Ex. johndoe@gmail.com"
+                      {...bindEmail}
+                    />
+                  </fieldset>
+
+                  <fieldset className="flex flex-col mb-6 animate" style={setAnim({ d: '200ms' })}>
+                    <label htmlFor="username" className="input-label">Username</label>
+                    <input
+                      type="text"
+                      required
+                      className="w-full input sm:w-64"
+                      id="username"
+                      placeholder="Ex. victorcampos"
+                      {...bindUsername}
+                    />
+                  </fieldset>
+
+                  <Button
+                    rounded={false}
+                    className="animate justify-center"
+                    style={setAnim({ d: '300ms' })}
+                    btnType="submit"
+                  >
+                    Guardar cambios
+                  </Button>
+                </form>
+              </div>
+            </div>
+            <div className="bg-bg-secondary rounded-xl shadow-lg w-full p-4 animate sm:w-auto">
+              <div className="flex flex-col">
+                <form
+                  className="flex flex-col"
+                  onSubmit={updateAccount}
+                >
+                  <label className="mb-4 input-label">Cambiar contraseña</label>
+                  <fieldset className="flex flex-col mb-4 animate" style={setAnim({ d: '100ms' })}>
+                    <input
+                      type="password"
+                      minLength={6}
+                      maxLength={12}
+                      required
+                      autoComplete="off"
+                      className="w-full input sm:w-64"
+                      id="pwd"
+                      placeholder="Escriba la nueva contraseña"
+                      {...bindPwd}
+                    />
+                  </fieldset>
+
+                  <fieldset className="flex flex-col mb-6 animate" style={setAnim({ d: '200ms' })}>
+                    <input
+                      type="password"
+                      required
+                      autoComplete="off"
+                      className="w-full input sm:w-64"
+                      id="re-pwd"
+                      placeholder="Repita la contraseña"
+                      {...bindRePwd}
+                    />
+                  </fieldset>
+
+                  <Button
+                    rounded={false}
+                    className="animate justify-center"
+                    style={setAnim({ d: '300ms' })}
+                    btnType="submit"
+                  >
+                    Actualizar la contraseña
+                  </Button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Viewport>
+    </div>
+  )
+}
+
+ProfileSettings.getLayoutProps = () => ({
+  title: 'Configuración de la cuenta',
+})
+
+export default ProfileSettings

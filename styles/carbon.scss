@@ -1,0 +1,23 @@
+$css--font-face: false;
+$css--helpers: false;
+$css--body: false;
+$css--use-layer: false;
+$css--reset: false;
+$css--typography: false;
+$css--plex: false;
+
+// Include defaults typically provided through the `styles.scss` entrypoint
+@import 'carbon-components/scss/globals/scss/_css--reset.scss';
+@import 'carbon-components/scss/globals/scss/_css--font-face.scss';
+@import 'carbon-components/scss/globals/scss/_css--helpers.scss';
+@import 'carbon-components/scss/globals/scss/_css--body.scss';
+
+
+// Optionally include components that you need
+@import 'carbon-components/scss/components/button/button';
+@import 'carbon-components/scss/components/tooltip/tooltip';
+@import 'carbon-components/scss/components/data-table/data-table';
+@import 'carbon-components/scss/components/accordion/accordion';
+@import 'carbon-components/scss/components/skeleton/skeleton';
+@import 'carbon-components/scss/components/pagination-nav/pagination-nav';
+@import 'carbon-components/scss/components/pagination/pagination';
