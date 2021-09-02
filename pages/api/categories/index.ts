@@ -8,14 +8,16 @@ const listCategories: NextApiHandler = async (req, res) => {
   const take = Math.max(1, +(items as string))
   const skip = take * Math.max(0, (+(page as string) - 1))
   try {
-    const total = await prisma.productCategory.count()
-    const categories = await prisma.productCategory.findMany({
-      take,
-      skip,
-      orderBy: {
-        createdAt: 'desc',
-      }
-    })
+    const [total, categories] = await prisma.$transaction([
+      prisma.productCategory.count(),
+      prisma.productCategory.findMany({
+        take,
+        skip,
+        orderBy: {
+          createdAt: 'desc',
+        }
+      }),
+    ])
     res.status(200).json({
       total,
       maxPages: Math.ceil(total / take),

@@ -8,14 +8,16 @@ const listUsers: NextApiHandler = async (req, res) => {
   const take = Math.max(1, +(items as string))
   const skip = take * Math.max(0, (+(page as string) - 1))
   try {
-    const total = await prisma.user.count()
-    const users = await prisma.user.findMany({
-      take,
-      skip,
-      orderBy: {
-        createdAt: 'desc',
-      }
-    })
+    const [total, users] = await prisma.$transaction([
+      prisma.user.count(),
+      prisma.user.findMany({
+        take,
+        skip,
+        orderBy: {
+          createdAt: 'desc',
+        }
+      }),
+    ])
     res.status(200).json({
       total,
       maxPages: Math.ceil(total / take),
@@ -49,12 +51,12 @@ const createUser: NextApiHandler = async (req, res) => {
 }
 
 const handler: NextApiHandler = async (req, res) => {
-  switch(req.method) {
+  switch (req.method) {
     case 'POST':
       return createUser(req, res)
     default:
       return listUsers(req, res)
-  } 
+  }
 }
 
 export default protect(handler)
