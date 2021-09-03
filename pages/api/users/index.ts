@@ -3,7 +3,7 @@ import prisma from '@/lib/db'
 import protect from '@/lib/middlewares/protect'
 import { hash } from 'bcrypt'
 
-const listUsers: NextApiHandler = async (req, res) => {
+const listUsers: NextApiHandler = protect(async (req, res) => {
   const { page = 1, items = 5 } = req.query
   const take = Math.max(1, +(items as string))
   const skip = take * Math.max(0, (+(page as string) - 1))
@@ -26,9 +26,9 @@ const listUsers: NextApiHandler = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error })
   }
-}
+}, 'ADMIN')
 
-const createUser: NextApiHandler = async (req, res) => {
+const createUser: NextApiHandler = protect(async (req, res) => {
   const { username, email, name, role, password } = JSON.parse(req.body)
   try {
     const user = await prisma.user.create({
@@ -48,7 +48,7 @@ const createUser: NextApiHandler = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error })
   }
-}
+})
 
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
@@ -59,4 +59,4 @@ const handler: NextApiHandler = async (req, res) => {
   }
 }
 
-export default protect(handler)
+export default handler

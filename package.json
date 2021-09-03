@@ -16,7 +16,7 @@
     "@carbon/icons-react": "^10.29.0",
     "@geist-ui/react": "^2.1.5",
     "@next-auth/typeorm-legacy-adapter": "^0.0.2-canary.218",
-    "@prisma/client": "^2.30.0",
+    "@prisma/client": "^2.30.3",
     "@react-three/drei": "^7.4.0",
     "@react-three/fiber": "^7.0.6",
     "@types/node-fetch": "^2.5.10",

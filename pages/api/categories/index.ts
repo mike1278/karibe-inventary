@@ -3,7 +3,7 @@ import prisma from '@/lib/db'
 import protect from '@/lib/middlewares/protect'
 import { Prisma } from '@prisma/client'
 
-const listCategories: NextApiHandler = async (req, res) => {
+const listCategories: NextApiHandler = protect(async (req, res) => {
   const { page = 1, items = 5 } = req.query
   const take = Math.max(1, +(items as string))
   const skip = take * Math.max(0, (+(page as string) - 1))
@@ -15,7 +15,14 @@ const listCategories: NextApiHandler = async (req, res) => {
         skip,
         orderBy: {
           createdAt: 'desc',
-        }
+        },
+        include: {
+          _count: {
+            select: {
+              products: true
+            }
+          }
+        },
       }),
     ])
     res.status(200).json({
@@ -27,9 +34,9 @@ const listCategories: NextApiHandler = async (req, res) => {
     console.error(error)
     res.status(500).json({ error })
   }
-}
+})
 
-const createCategory: NextApiHandler = async (req, res) => {
+const createCategory: NextApiHandler = protect(async (req, res) => {
   const { name } = JSON.parse(req.body)
   try {
     const user = await prisma.productCategory.create({
@@ -49,7 +56,7 @@ const createCategory: NextApiHandler = async (req, res) => {
     }
     res.status(500).json({ error })
   }
-}
+}, 'ADMIN')
 
 const handler: NextApiHandler = async (req, res) => {
   switch(req.method) {
@@ -60,4 +67,4 @@ const handler: NextApiHandler = async (req, res) => {
   } 
 }
 
-export default protect(handler)
+export default handler

@@ -1,15 +1,15 @@
+import { Role } from '@prisma/client'
+import { getUser } from '@/models/auth/user'
 import type { NextApiHandler } from 'next'
-import { getSession } from 'next-auth/client'
 
-const protect = (handler: NextApiHandler): NextApiHandler => async (req, res) => {
-  const session = await getSession({ req })
-  if (!session) {
+const protect = (handler: NextApiHandler, role?: Role): NextApiHandler => async (req, res) => {
+  const session = await getUser({ req })
+  if (!session || (role && session.user.role !== role)) {
     res.status(401).json({
       error: 'Unauthorized'
     })
     return
   }
-  req.headers.a = 'peo'
 
   return handler(req, res)
 }

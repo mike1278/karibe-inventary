@@ -38,4 +38,4 @@ const handler: NextApiHandler = async (req, res) => {
   } 
 }
 
-export default protect(handler)
+export default protect(handler, 'ADMIN')
