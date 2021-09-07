@@ -1,3 +1,4 @@
+import { Session } from '@/models/auth/user'
 import { getUser, loginUser } from '@/models/auth/user/db'
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
@@ -22,17 +23,9 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    async jwt(token, user, account, profile) {
-      const { id, email } = token as any
-      const params = id ? { id } : { email }
-      return {...token, ...await getUser(params)}
-    },
-    async session(session) {
+    async session(session: Session) {
       // Add property to session, like an access_token from a provider.
-      // @ts-ignore
-      const { id, email } = session.user
-      const params = id ? { id } : { email }
-      session.user = await getUser(params)
+      session.user = await getUser(session.user)
 
       return session
     },

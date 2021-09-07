@@ -31,5 +31,16 @@ export const loginUser = async (emailOrUsername: string, password: string): Prom
   return null
 }
 
-export const getUser = async (params: { id: number } | { email: string }): Promise<User> =>
-  prisma.user.findUnique({ where: params })
+
+type GetUserParams = {
+  id?: number
+  email?: string
+}
+
+export const getUser = async ({ id, email }: GetUserParams): Promise<User> =>
+  prisma.user.findUnique({
+    where: {
+      id,
+      email: id ? undefined : email,
+    }
+  })
