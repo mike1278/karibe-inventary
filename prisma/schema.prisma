@@ -43,6 +43,29 @@ model ProductCategory {
   createdAt DateTime  @default(now())
 }
 
+model Consumable {
+  id          Int             @id @default(autoincrement())
+  category    ConsumableCategory @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+  sku         String          @unique
+  name        String
+  product     Decimal
+  description String?
+  buys  Buy[]
+  sells  Sell[]
+  active      Boolean         @default(true)
+
+}
+
+model ConsumableCategory{
+  id        Int  @id @default(autoincrement())
+  name      String
+  consumables Consumable[]
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+}
+
 model Product {
   id          Int             @id @default(autoincrement())
   category    ProductCategory @relation(fields: [categoryId], references: [id])
@@ -52,8 +75,8 @@ model Product {
   product     Decimal
   description String?
   active      Boolean         @default(true)
-  buyDetails  BuyDetail[]
-  sellDetails SellDetail[]
+  buys  Buy[]
+  sells  Sell[]
 }
 
 model Provider {
@@ -66,21 +89,23 @@ model Provider {
 }
 
 model Buy {
-  id         Int         @id @default(autoincrement())
+  id           Int         @id @default(autoincrement())
   // code
-  details    BuyDetail[]
-  priceTotal Decimal
-  provider   Provider    @relation(fields: [providerId], references: [id])
-  providerId Int
-  createdAt  DateTime    @default(now())
+  total        Decimal 
+  product      Product    @relation(fields: [productId], references: [id])
+  productId    Int
+  consumable   Consumable @relation(fields: [consumableId], references: [id])
+  consumableId Int
+  provider     Provider    @relation(fields: [providerId], references: [id])
+  providerId   Int
+  details      BuyDetail[]
+  createdAt    DateTime    @default(now())
 }
 
 model BuyDetail {
   id        Int     @id @default(autoincrement())
   buy       Buy     @relation(fields: [buyId], references: [id])
   buyId     Int
-  product   Product @relation(fields: [productId], references: [id])
-  productId Int
   price     Decimal
   quantity  Int
 }
@@ -95,10 +120,14 @@ model Client {
 
 model Sell {
   id         Int          @id @default(autoincrement())
-  details    SellDetail[]
-  priceTotal Decimal
+  total Decimal
+  product      Product    @relation(fields: [productId], references: [id])
+  productId   Int
+  consumable   Consumable @relation(fields: [consumableId], references: [id])
+  consumableId Int
   client     Client       @relation(fields: [clientId], references: [id])
   clientId   Int
+  details    SellDetail[]
   createdAt  DateTime     @default(now())
 }
 
@@ -106,8 +135,6 @@ model SellDetail {
   id        Int     @id @default(autoincrement())
   sell      Sell    @relation(fields: [sellId], references: [id])
   sellId    Int
-  product   Product @relation(fields: [productId], references: [id])
-  productId Int
   price     Decimal
   quantity  Int
 }
