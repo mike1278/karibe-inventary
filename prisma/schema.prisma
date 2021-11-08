@@ -7,8 +7,7 @@ datasource db {
 }
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["selectRelationCount"]
+  provider = "prisma-client-js"
 }
 
 enum Role {
@@ -43,29 +42,6 @@ model ProductCategory {
   products  Product[]
   active    Boolean   @default(true)
   createdAt DateTime  @default(now())
-}
-
-model Consumable {
-  id          Int             @id @default(autoincrement())
-  category    ConsumableCategory @relation(fields: [categoryId], references: [id])
-  categoryId  Int
-  sku         String          @unique
-  name        String
-  product     Decimal
-  description String?
-  buys  Buy[]
-  sells  Sell[]
-  active      Boolean         @default(true)
-
-}
-
-model ConsumableCategory{
-  id        Int  @id @default(autoincrement())
-  name      String
-  consumables Consumable[]
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-
 }
 
 model Product {
@@ -122,7 +98,6 @@ model Sell {
   userId     Int
   client     Client       @relation(fields: [clientId], references: [id])
   clientId   Int
-  details    SellDetail[]
   createdAt  DateTime     @default(now())
 }
 
