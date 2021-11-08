@@ -1,6 +1,5 @@
 import { ReactNode, useContext, createContext, useEffect, useMemo, useState, Dispatch, SetStateAction } from 'react'
 import { Navbar, Footer } from './navigation'
-import OgImage, { OgImageProps } from './og-image'
 import SeoTags, { SeoTagsProps } from './seo-tags'
 import { GoogleFonts } from '@/components/google-fonts'
 import Favicons from './favicons'
@@ -22,7 +21,7 @@ export type PageWithLayout<T = any> = NextPage<T> & {
   getLayoutProps?: GetLayoutProps<T>
 }
 
-export interface PageProps extends OgImageProps, SeoTagsProps {
+export interface PageProps extends SeoTagsProps {
   useLayout?: boolean
   pageLayout?: IBrandLayout
   protect?: boolean
@@ -191,8 +190,6 @@ const Page = (pageProps: PageProps) => {
               brandTitle={brandTitle || pageLayout.brandName}
               description={description || (globalData?.SEODescription || pageLayout.brandName)}
             />
-
-            <OgImage {...rest} />
 
             <style global jsx>{`
             html {

@@ -20,10 +20,10 @@
     "baseUrl": ".",
     "paths": {
       "@www/*": [
-        "./components/www/*",
+        "./components/www/*"
       ],
       "@/*": [
-        "./*",
+        "./*"
       ]
     }
   },

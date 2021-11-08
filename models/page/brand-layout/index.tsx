@@ -17,7 +17,7 @@ export interface IBrandLayout {
 
 export const getDefaultBrandLayout = (): IBrandLayout => {
   return {
-    brandName: 'Karibe',
+    brandName: 'Venita Café',
     themes: {
       normal: {
         foreground: {

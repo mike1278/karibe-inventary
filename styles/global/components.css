@@ -17,15 +17,21 @@
 	}
 }
 
+
 .input {
 	@apply p-2;
 	@apply border-b;
 	@apply border-x-gray-300;
 	@apply bg-transparent;
+	height: 41px;
 }
 
 select:required:invalid {
 	color: #a9a9a9;
+}
+
+select.input > option {
+	@apply bg-bg-secondary;
 }
 
 input[type="color"] {
@@ -51,13 +57,21 @@ input[type="color"]::-webkit-color-swatch-wrapper {
 .input:focus {
 	outline: none;
 	@apply border-fg-primary;
-	@apply text-black;
+	@apply text-fg-secondary;
+}
+
+.input:disabled {
+	outline: none;
+	@apply text-fg-secondary;
+	@apply text-opacity-50;
+	cursor: not-allowed;
 }
 
 .input-label {
 	@apply text-xs;
-	@apply text-fg-primary;
+	@apply text-fg-secondary;
 	@apply font-bold;
+	@apply mb-2;
 }
 
 .t-p {

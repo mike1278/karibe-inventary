@@ -25,6 +25,7 @@ const listCategories: NextApiHandler = protect(async (req, res) => {
         },
       }),
     ])
+    console.log(categories)
     res.status(200).json({
       total,
       maxPages: Math.ceil(total / take),

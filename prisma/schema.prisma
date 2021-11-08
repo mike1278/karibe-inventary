@@ -23,6 +23,8 @@ model User {
   image     String?
   username  String   @unique
   account   Account?
+  buys      Buy[]    @relation("buy_user")
+  sells     Sell[]   @relation("sell_user")
   active    Boolean  @default(true)
   role      Role     @default(USER)
   createdAt DateTime @default(now())
@@ -44,45 +46,41 @@ model ProductCategory {
 }
 
 model Product {
-  id          Int             @id @default(autoincrement())
-  category    ProductCategory @relation(fields: [categoryId], references: [id])
-  categoryId  Int
-  sku         String          @unique
-  name        String
-  product     Decimal
-  description String?
-  active      Boolean         @default(true)
-  buyDetails  BuyDetail[]
-  sellDetails SellDetail[]
-}
-
-model Provider {
-  id        Int      @id @default(autoincrement())
-  name      String
-  rif       String   @unique
-  createdAt DateTime @default(now())
-  active    Boolean  @default(true)
-  buys      Buy[]
+  id            Int             @id @default(autoincrement())
+  category      ProductCategory @relation(fields: [categoryId], references: [id])
+  categoryId    Int
+  sku           String          @unique
+  name          String
+  max           Int             @default(70)
+  min           Int             @default(25)
+  price         Float
+  providerPrice Float
+  description   String?
+  stock         Int
+  active        Boolean         @default(true)
+  buyDetails    BuyDetail[]
+  sellDetails   SellDetail[]
+  createdAt     DateTime        @default(now())
 }
 
 model Buy {
   id         Int         @id @default(autoincrement())
-  // code
   details    BuyDetail[]
-  priceTotal Decimal
-  provider   Provider    @relation(fields: [providerId], references: [id])
-  providerId Int
+  priceTotal Float
+  user       User        @relation(fields: [userId], references: [id], name: "buy_user")
+  userId     Int
   createdAt  DateTime    @default(now())
 }
 
 model BuyDetail {
-  id        Int     @id @default(autoincrement())
-  buy       Buy     @relation(fields: [buyId], references: [id])
+  id        Int      @id @default(autoincrement())
+  buy       Buy      @relation(fields: [buyId], references: [id])
   buyId     Int
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
   productId Int
-  price     Decimal
+  price     Float
   quantity  Int
+  createdAt DateTime @default(now())
 }
 
 model Client {
@@ -96,18 +94,21 @@ model Client {
 model Sell {
   id         Int          @id @default(autoincrement())
   details    SellDetail[]
-  priceTotal Decimal
+  priceTotal Float
+  user       User         @relation(fields: [userId], references: [id], name: "sell_user")
+  userId     Int
   client     Client       @relation(fields: [clientId], references: [id])
   clientId   Int
   createdAt  DateTime     @default(now())
 }
 
 model SellDetail {
-  id        Int     @id @default(autoincrement())
-  sell      Sell    @relation(fields: [sellId], references: [id])
+  id        Int      @id @default(autoincrement())
+  sell      Sell     @relation(fields: [sellId], references: [id])
   sellId    Int
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
   productId Int
-  price     Decimal
+  price     Float
   quantity  Int
+  createdAt DateTime @default(now())
 }

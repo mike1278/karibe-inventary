@@ -45,7 +45,7 @@ const Table = <T extends Object = {}>({ columns, data }: TableProps<T>) => {
                       className="py-4 px-6 whitespace-nowrap"
                       {...cell.getCellProps()}
                     >
-                      <div className="flex text-center justify-center items-center">
+                      <div className="flex text-center text-sm justify-center items-center">
                         {cell.render('Cell')}
                       </div>
                     </td>

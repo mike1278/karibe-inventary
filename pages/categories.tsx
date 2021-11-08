@@ -4,7 +4,7 @@ import Table, { TableColumn } from '@/components/table'
 import Viewport, { setAnim } from '@/components/viewport'
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react'
 import useSWR from 'swr'
-import { ProductCategory } from '@prisma/client'
+import { ProductCategory as DBProductCategory } from '@prisma/client'
 import { useUser } from '@/models/auth/user'
 import { Edit24, UserFollow24, ChevronLeft16, ChevronRight16 } from '@carbon/icons-react'
 import { Button } from '@/components/button'
@@ -12,6 +12,12 @@ import { OptionsDrawerChildren } from '@/components/options-drawer'
 import { useInput } from '@/lib/hooks'
 import { formatDate } from '@/lib/utils/client'
 import Loading from '@/components/loading'
+
+type ProductCategory = DBProductCategory & {
+  _count: {
+    products: number
+  }
+}
 
 const getColumns = (): TableColumn<ProductCategory>[] => ([
   {
@@ -21,6 +27,11 @@ const getColumns = (): TableColumn<ProductCategory>[] => ([
   {
     Header: 'Nombre',
     accessor: 'name',
+  },
+  {
+    Header: 'Productos asociados',
+    accessor: '_count',
+    Cell: ({ value: { products } }) => products
   },
   {
     Header: 'Estatus',
@@ -225,7 +236,7 @@ const ProductCategories: PageWithLayout = () => {
                       </span> registros por página</p>
                   </div>
                   <div className="flex space-x-6">
-                    <button className="disabled:opacity-50 disabled:cursor-not-allowed" onClick={() => setPage(page - 1)} disabled={page == 1}>
+                    <button className="disabled:cursor-not-allowed disabled:opacity-50" onClick={() => setPage(page - 1)} disabled={page == 1}>
                       <ChevronLeft16 />
                     </button>
                     <p>Página
@@ -241,7 +252,7 @@ const ProductCategories: PageWithLayout = () => {
                           ))}
                         </select>
                       </span> de {data.maxPages || 1}</p>
-                    <button className="disabled:opacity-50 disabled:cursor-not-allowed" onClick={() => setPage(page + 1)} disabled={page == data.maxPages || !data.maxPages}>
+                    <button className="disabled:cursor-not-allowed disabled:opacity-50" onClick={() => setPage(page + 1)} disabled={page == data.maxPages || !data.maxPages}>
                       <ChevronRight16 />
                     </button>
                   </div>
