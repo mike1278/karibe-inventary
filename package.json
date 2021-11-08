@@ -10,7 +10,7 @@
     "start": "next start",
     "test": "xo !*.config.js",
     "favicons": "gulp generateFavicons",
-    "vercel-build": "prisma generate && prisma db push && next build"
+    "vercel-build": "prisma generate && cross-env DATABASE_URL=$MIGRATE_DB_URL prisma db push && next build"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
@@ -85,6 +85,7 @@
     "autoprefixer": "^10.2.5",
     "babel-loader": "^8.2.2",
     "babel-plugin-inline-react-svg": "^2.0.0",
+    "cross-env": "^7.0.3",
     "dotenv-cli": "^4.0.0",
     "eslint-config-xo-react": "^0.23.0",
     "eslint-config-xo-typescript": "^0.37.0",

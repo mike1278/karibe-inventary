@@ -28,6 +28,7 @@ importers:
       carbon-components: ^10.38.0
       carbon-components-react: ^7.38.0
       chrome-aws-lambda: ^10.1.0
+      cross-env: ^7.0.3
       dompurify: ^2.2.6
       dotenv: ^10.0.0
       dotenv-cli: ^4.0.0
@@ -155,6 +156,7 @@ importers:
       autoprefixer: 10.2.5_postcss@8.3.5
       babel-loader: 8.2.2
       babel-plugin-inline-react-svg: 2.0.1
+      cross-env: 7.0.3
       dotenv-cli: 4.0.0
       eslint-config-xo-react: 0.23.0_1412027f9571a3b824daf6211ca211cc
       eslint-config-xo-typescript: 0.37.0_typescript@4.3.4
@@ -4491,6 +4493,14 @@ packages:
   /create-require/1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
     dev: false
+
+  /cross-env/7.0.3:
+    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
+    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
+    dev: true
 
   /cross-fetch/3.1.4:
     resolution: {integrity: sha512-1eAtFWdIubi6T4XPy6ei9iUFoKpUkIF971QLN8lIvvvwueI65+Nw5haMNKUwfJxabqlIIDODJKGrQ66gxC0PbQ==}
