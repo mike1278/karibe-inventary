@@ -45,7 +45,12 @@ const create: NextApiHandler = protect(async (req, res) => {
   try {
     const products: { product: Product, price: number, quantity: number }[] = []
     for await (const d of details) {
-      const product = await prisma.product.findUnique({ where: { id: +d.productId } })
+      const product = await prisma.product.update({
+        where: { id: +d.productId }, data: {
+          price: +d.price,
+          providerPrice: +d.providerPrice,
+        }
+      })
       products.push({
         product,
         price: product.providerPrice,

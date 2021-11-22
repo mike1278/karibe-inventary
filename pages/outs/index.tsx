@@ -93,7 +93,7 @@ const Products: PageWithLayout = () => {
           <div className="flex flex-col mx-auto space-y-6 w-full pb-16 lg:w-9/10">
             {(data !== undefined && columns) ? (
               <>
-                <Button href="/outs/new" className="self-end" icon={<UserFollow24 />}>Facturar venta</Button>
+                <Button href="/outs/new" className="self-end" icon={<UserFollow24 />}>Registrar salida</Button>
                 <Table columns={columns} data={data?.sells || []} />
                 <div className="flex flex-col space-y-6 w-full justify-between items-center sm:flex-row sm:space-y-0">
                   <div className="flex space-x-6">

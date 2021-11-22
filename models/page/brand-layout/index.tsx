@@ -21,7 +21,7 @@ export const getDefaultBrandLayout = (): IBrandLayout => {
     themes: {
       normal: {
         foreground: {
-          primary: '#4E9DEB',
+          primary: '#917330',
           secondary: '#2b2b2b',
         },
         background: {
@@ -31,7 +31,7 @@ export const getDefaultBrandLayout = (): IBrandLayout => {
       },
       dark: {
         foreground: {
-          primary: '#9AC7F4',
+          primary: '#b39044',
           secondary: '#f5f4f4'
         },
         background: {

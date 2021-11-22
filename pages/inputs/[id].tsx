@@ -2,14 +2,12 @@ import Link from '@/components/canonical-link'
 import { PageWithLayout, useOptionsDrawer } from '@/components/page'
 import Table, { TableColumn } from '@/components/table'
 import Viewport, { setAnim } from '@/components/viewport'
-import { useCallback, useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import useSWR from 'swr'
 import { Buy as DBBuy, Product as DBPRoduct, BuyDetail as DBBuyDetail, ProductCategory, User } from '@prisma/client'
-import { UserFollow24, ChevronLeft16, ChevronRight16, Close24 } from '@carbon/icons-react'
+import { Printer24 } from '@carbon/icons-react'
 import { Button } from '@/components/button'
-import Loading from '@/components/loading'
-import { formatDate } from '@/lib/utils/client'
-import { getProductColumns } from '../products'
+import { formatDate, printElement } from '@/lib/utils/client'
 import { useRouter } from 'next/router'
 
 type Product = DBPRoduct & {
@@ -36,7 +34,7 @@ const getColumns = (): TableColumn<BuyDetail>[] => ([
     id: 'sku',
     Cell: ({ row }) => (
       <span
-        className={`rounded-full mx-auto bg-gray-400 bg-opacity-20 shadow-sm text-xs p-2`}
+        className={`rounded-full mx-auto bg-gray-400 bg-opacity-20 shadow-sm text-xs p-2 print:shadow-none print:border`}
       >
         {row.original.product.sku}
       </span>
@@ -47,14 +45,14 @@ const getColumns = (): TableColumn<BuyDetail>[] => ([
     id: 'category',
     Cell: ({ row }) => (
       <span
-        className={`rounded-full mx-auto bg-fg-primary shadow-sm text-bg-secondary text-xs p-2`}
+        className={`rounded-full mx-auto bg-fg-primary shadow-sm text-bg-secondary text-xs p-2 print:shadow-none print:border`}
       >
         {row.original.product.category.name}
       </span>
     )
   },
   {
-    Header: 'Precio de unidad',
+    Header: 'Precio de venta',
     id: 'price',
     Cell: ({ row }) => <span className="font-bold text-red-500">${row.original.product.providerPrice.toFixed(2)}</span>,
   },
@@ -84,6 +82,8 @@ const Buy: PageWithLayout = () => {
     ...getColumns(),
   ], [])
 
+  const wrapperRef = useRef<HTMLDivElement>()
+
   return (
     <div className="py-4 c-lg">
       <div className="flex text-xs w-full pb-6 uppercase">
@@ -99,9 +99,13 @@ const Buy: PageWithLayout = () => {
             </h2>
           </div>
 
+          <style type="text/css" media="print" jsx global>{`
+            @page {size: landscape; }
+          `}</style>
+
           {data ? (
-            <div className="flex flex-col mx-auto space-y-6 w-full pb-16 lg:w-9/10">
-              <div className="flex sm:space-x-6">
+            <div className="flex flex-col mx-auto space-y-6 w-full pb-16 lg:w-9/10" ref={wrapperRef}>
+              <div className="flex print:flex-col print:space-y-6 print:space-x-0 sm:space-x-6">
                 <p><span className="font-bold">Operador:</span> {data.user.name}</p>
                 <p><span className="font-bold">Facturado el:</span> {formatDate(data.createdAt)}</p>
               </div>
@@ -109,6 +113,7 @@ const Buy: PageWithLayout = () => {
               <div className="flex space-x-6 w-full justify-end">
                 <p>Total: <span className="font-bold text-red-500">${data.priceTotal.toFixed(2)}</span></p>
               </div>
+              <Button className="self-end print:hidden" onClick={() => printElement(wrapperRef.current)} icon={<Printer24 />}>Exportar documento</Button>
             </div>
           ) : null}
         </div>

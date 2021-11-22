@@ -1,5 +1,6 @@
 import styles from './viewport.module.css'
 import { useEffect, HTMLAttributes, useRef, RefObject, useState, CSSProperties } from 'react'
+import { Printer24 } from '@carbon/icons-react'
 
 interface SetAnimationProps {
   x?: string

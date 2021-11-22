@@ -13,7 +13,7 @@ const Table = <T extends Object = {}>({ columns, data }: TableProps<T>) => {
     useTable({ columns, data })
 
   return (
-    <div className="rounded-lg shadow overflow-y-hidden overflow-x-auto">
+    <div className="rounded-lg shadow print:border print:shadow-none overflow-y-hidden overflow-x-auto">
       <table {...getTableProps()} className="divide-y min-w-full divide-gray-200 overflow-hidden table-auto">
         <thead className="bg-bg-secondary duration-150">
           {headerGroups.map((headerGroup) => (

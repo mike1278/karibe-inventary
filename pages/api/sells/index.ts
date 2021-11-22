@@ -46,7 +46,7 @@ const create: NextApiHandler = protect(async (req, res) => {
   const { client, details } = JSON.parse(req.body)
   const { dni, name } = client || {}
   try {
-    const products: { product: Product, price: number, quantity: number }[] = []
+    const products: { product: Product, price: number, quantity: number, inStock: number }[] = []
     for await (const d of details) {
       const product = await prisma.product.findUnique({ where: { id: +d.productId } })
       if (+d.quantity > product.stock) {
@@ -55,6 +55,7 @@ const create: NextApiHandler = protect(async (req, res) => {
       products.push({
         product,
         price: product.providerPrice,
+        inStock: Math.max(0, product.stock),
         quantity: +d.quantity
       })
     }
@@ -100,6 +101,7 @@ const create: NextApiHandler = protect(async (req, res) => {
             data: products.map((p) => ({
               price: p.price,
               productId: p.product.id,
+              inStock: p.inStock,
               quantity: p.quantity,
             }))
           }

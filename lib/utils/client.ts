@@ -8,6 +8,19 @@ export const getAbsoluteURL = ({
   return baseURL + path
 }
 
+export function printElement<T extends HTMLElement>(el: T) {
+  var printContents = el.outerHTML;
+  var originalContents = document.body.innerHTML;
+
+  document.body.innerHTML = printContents;
+
+  window.print()
+
+  document.body.innerHTML = originalContents;
+
+  window.location.reload()
+}
+
 export const isLocalhost = (host = getDefaultHost()) => {
   const splitedHost = host.split('.')
   return splitedHost.slice(0, splitedHost.length >= 3 ? splitedHost.length - 1 : splitedHost.length).some(str => str.startsWith('localhost'))

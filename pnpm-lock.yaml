@@ -45,6 +45,7 @@ importers:
       gulp: ^4.0.2
       inter-ui: ^3.19.3
       ioredis: ^4.27.6
+      lightweight-charts: ^3.3.0
       lscache: ^1.3.0
       mongodb: ^3.6.9
       nanoid: ^3.1.23
@@ -108,6 +109,7 @@ importers:
       graphql-request: 3.4.0_graphql@15.5.0
       inter-ui: 3.19.3
       ioredis: 4.27.6
+      lightweight-charts: 3.3.0
       lscache: 1.3.0
       mongodb: 3.6.9
       nanoid: 3.1.23

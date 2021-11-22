@@ -23,7 +23,12 @@ type Product = DBPRoduct & {
   category: ProductCategory
 }
 
-type BuyDetail = { product: Product, quantity: number }
+type BuyDetail = {
+  product: Product
+  quantity: number
+  providerPrice: number
+  price: number
+}
 
 const getColumns = (): TableColumn<BuyDetail>[] => ([
   {
@@ -53,11 +58,11 @@ const getColumns = (): TableColumn<BuyDetail>[] => ([
       </span>
     )
   },
-  {
-    Header: 'Precio de unidad',
-    id: 'price',
-    Cell: ({ row }) => <span className="font-bold text-red-500">${row.original.product.providerPrice.toFixed(2)}</span>,
-  },
+  // {
+  // Header: 'Precio de venta',
+  // id: 'price',
+  // Cell: ({ row }) => <span className="font-bold text-red-500">${row.original.product.providerPrice.toFixed(2)}</span>,
+  // },
 ])
 
 const NewBuy: PageWithLayout = () => {
@@ -82,9 +87,11 @@ const NewBuy: PageWithLayout = () => {
     }
     const res = await fetch(`/api/buys`, {
       method: 'POST',
-      body: JSON.stringify(details.map(d => ({
-        productId: d.product.id,
-        quantity: d.quantity,
+      body: JSON.stringify(details.map(({ product, price, providerPrice, quantity }) => ({
+        productId: product.id,
+        providerPrice,
+        price,
+        quantity,
       })))
     })
     if (res.ok) {
@@ -106,6 +113,24 @@ const NewBuy: PageWithLayout = () => {
     })
   }, [])
 
+  const changePrice = useCallback((value, id) => {
+    setDetails((details) => {
+      const clone = Array.from(details)
+      const idx = clone.findIndex(d => d.product.id === id)
+      clone[idx].price = value
+      return clone
+    })
+  }, [])
+
+  const changeProviderPrice = useCallback((value, id) => {
+    setDetails((details) => {
+      const clone = Array.from(details)
+      const idx = clone.findIndex(d => d.product.id === id)
+      clone[idx].providerPrice = value
+      return clone
+    })
+  }, [])
+
   const delDetail = useCallback((id) => {
     setDetails((details) => {
       const clone = Array.from(details)
@@ -118,13 +143,45 @@ const NewBuy: PageWithLayout = () => {
   const columns = useMemo<TableColumn<BuyDetail>[]>(() => [
     ...getColumns(),
     {
+      Header: 'Precio de venta',
+      accessor: 'price',
+      Cell: ({ value, row }) => (
+        <input
+          type="number"
+          value={value}
+          className="text-right w-24 input"
+          step={0.1}
+          min={0}
+          onChange={e => {
+            changePrice(+e.target.value, row.original.product.id)
+          }}
+        />
+      )
+    },
+    {
+      Header: 'Costo neto',
+      accessor: 'providerPrice',
+      Cell: ({ value, row }) => (
+        <input
+          type="number"
+          value={value}
+          className="text-right w-24 input"
+          step={0.1}
+          min={0}
+          onChange={e => {
+            changeProviderPrice(+e.target.value, row.original.product.id)
+          }}
+        />
+      )
+    },
+    {
       Header: 'Cantidad',
       accessor: 'quantity',
       Cell: ({ value, row }) => (
         <input
           type="number"
           value={value}
-          className="input"
+          className="text-right w-24 input"
           min={1}
           max={row.original.product.max - Math.max(0, row.original.product.stock)}
           onChange={e => {
@@ -146,7 +203,7 @@ const NewBuy: PageWithLayout = () => {
     {
       Header: 'Precio total',
       id: 'total',
-      Cell: ({ row }) => <span className="font-bold text-red-500">${(row.original.product.providerPrice * row.original.quantity).toFixed(2)}</span>,
+      Cell: ({ row }) => <span className="font-bold text-red-500">${(row.original.providerPrice * row.original.quantity).toFixed(2)}</span>,
     },
     {
       Header: 'Eliminar',
@@ -179,6 +236,8 @@ const NewBuy: PageWithLayout = () => {
             setDetails([
               {
                 product: row.original,
+                providerPrice: row.original.providerPrice,
+                price: row.original.price,
                 quantity: row.original.max - Math.max(0, row.original.stock)
               },
               ...details,
@@ -196,8 +255,8 @@ const NewBuy: PageWithLayout = () => {
   return (
     <div className="py-4 c-lg">
       <div className="flex text-xs w-full pb-6 uppercase">
-        <Link href="/" className="hover:underline">
-          Ir al dashboard
+        <Link href="/inputs" className="hover:underline">
+          Ir a entradas
         </Link>
       </div>
       <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
@@ -283,7 +342,7 @@ const NewBuy: PageWithLayout = () => {
 }
 
 NewBuy.getLayoutProps = () => ({
-  title: 'Productos'
+  title: 'Nueva entrada'
 })
 
 export default NewBuy

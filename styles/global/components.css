@@ -17,13 +17,24 @@
 	}
 }
 
-
 .input {
 	@apply p-2;
 	@apply border-b;
 	@apply border-x-gray-300;
 	@apply bg-transparent;
 	height: 41px;
+}
+
+.card {
+	@apply bg-bg-secondary rounded-lg shadow p-4;
+}
+
+@media print {
+	.card {
+		@apply shadow-none;
+		@apply border;
+		@apply border-black;
+	}
 }
 
 select:required:invalid {

@@ -131,7 +131,8 @@ module.exports = {
         },
       },
       screens: {
-        'xxl': {'min': '1480px'}
+        print: { raw: 'print' },
+        xxl: { min: '1480px' }
       },
       fontFamily,
       scale: {

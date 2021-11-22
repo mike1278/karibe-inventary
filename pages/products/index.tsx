@@ -43,7 +43,8 @@ export const getProductColumns = (): TableColumn<Product>[] => ([
     Cell: ({ value }) => <span className="font-bold text-green-500">${value.toFixed(2)}</span>,
   },
   {
-    Header: 'Precio del proveedor',
+
+    Header: 'Costo neto',
     accessor: 'providerPrice',
     Cell: ({ value }) => <span className="font-bold text-green-500">${value.toFixed(2)}</span>,
   },
@@ -66,7 +67,7 @@ export const getProductColumns = (): TableColumn<Product>[] => ([
         <span
           className={`rounded-full mx-auto bg-fg-primary shadow-sm text-bg-secondary text-xs p-2`}
         >
-          Plantilla
+          Nuevo
         </span>
       )
     )
@@ -242,7 +243,7 @@ const Form: OptionsDrawerChildren<FormProps> = forwardRef(({ mutate, ...rest }, 
         />
       </fieldset>
 
-      <fieldset className="flex flex-col mb-4 animate">
+      {/* <fieldset className="flex flex-col mb-4 animate">
         <label className="input-label">Mínimo/máximo en el stock</label>
         <div className="w-full grid gap-4 grid-cols-2">
           <input
@@ -264,10 +265,10 @@ const Form: OptionsDrawerChildren<FormProps> = forwardRef(({ mutate, ...rest }, 
             {...bindMax}
           />
         </div>
-      </fieldset>
+      </fieldset> */}
 
       <fieldset className="flex flex-col mb-4 animate">
-        <label className="input-label">Precio de venta / precio del proveedor</label>
+        <label className="input-label">Precio de venta / Costo neto</label>
         <div className="w-full grid gap-4 grid-cols-2">
           <input
             type="number"

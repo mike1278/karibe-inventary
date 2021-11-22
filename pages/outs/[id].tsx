@@ -2,13 +2,12 @@ import Link from '@/components/canonical-link'
 import { PageWithLayout, useOptionsDrawer } from '@/components/page'
 import Table, { TableColumn } from '@/components/table'
 import Viewport, { setAnim } from '@/components/viewport'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import useSWR from 'swr'
 import { Sell as DBSell, Product as DBPRoduct, SellDetail as DBSellDetail, ProductCategory, User, Client } from '@prisma/client'
 import { Button } from '@/components/button'
-import Loading from '@/components/loading'
-import { formatDate } from '@/lib/utils/client'
-import { getProductColumns } from '../products'
+import { formatDate, printElement } from '@/lib/utils/client'
+import { Printer24 } from '@carbon/icons-react'
 import { useRouter } from 'next/router'
 
 type Product = DBPRoduct & {
@@ -54,7 +53,7 @@ const getColumns = (): TableColumn<SellDetail>[] => ([
     )
   },
   {
-    Header: 'Precio de unidad',
+    Header: 'Precio de venta',
     id: 'price',
     Cell: ({ row }) => <span className="font-bold text-green-500">${row.original.product.price.toFixed(2)}</span>,
   },
@@ -97,6 +96,8 @@ const Sell: PageWithLayout = () => {
     ...getColumns(),
   ], [])
 
+  const wrapperRef = useRef<HTMLDivElement>()
+
   return (
     <div className="py-4 c-lg">
       <div className="flex text-xs w-full pb-6 uppercase">
@@ -112,20 +113,25 @@ const Sell: PageWithLayout = () => {
             </h2>
           </div>
 
+          <style type="text/css" media="print" jsx global>{`
+            @page {size: landscape; }
+          `}</style>
+
           {data ? (
-            <div className="flex flex-col mx-auto space-y-6 w-full pb-16 lg:w-9/10">
-              <div className="flex sm:space-x-6">
+            <div className="flex flex-col mx-auto space-y-6 w-full pb-16 lg:w-9/10" ref={wrapperRef}>
+              <div className="flex print:flex-col print:space-y-6 print:space-x-0 sm:space-x-6">
                 <p><span className="font-bold">Operador:</span> {data.user.name}</p>
                 <p><span className="font-bold">Facturado el:</span> {formatDate(data.createdAt)}</p>
               </div>
-              <div className="flex sm:space-x-6">
-                <p><span className="font-bold">C.I. del cliente:</span> {data.client.dni}</p>
+              <div className="flex print:flex-col print:space-y-6 print:space-x-0 sm:space-x-6">
+                <p><span className="font-bold">Documento del cliente:</span> {data.client.dni}</p>
                 <p><span className="font-bold">Nombre del cliente:</span> {data.client.name}</p>
               </div>
               <Table columns={columns} data={data.details} />
               <div className="flex space-x-6 w-full justify-end">
                 <p>Total: <span className="font-bold text-green-500">${data.priceTotal.toFixed(2)}</span></p>
               </div>
+              <Button className="self-end print:hidden" onClick={() => printElement(wrapperRef.current)} icon={<Printer24 />}>Exportar documento</Button>
             </div>
           ) : null}
         </div>

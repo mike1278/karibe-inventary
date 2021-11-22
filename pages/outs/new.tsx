@@ -55,7 +55,7 @@ const getColumns = (): TableColumn<BuyDetail>[] => ([
     )
   },
   {
-    Header: 'Precio de unidad',
+    Header: 'Precio de venta',
     id: 'price',
     Cell: ({ row }) => <span className="font-bold text-green-500">${row.original.product.price.toFixed(2)}</span>,
   },
@@ -206,8 +206,8 @@ const NewSell: PageWithLayout = () => {
   return (
     <div className="py-4 c-lg">
       <div className="flex text-xs w-full pb-6 uppercase">
-        <Link href="/" className="hover:underline">
-          Ir al dashboard
+        <Link href="/outs" className="hover:underline">
+          Ir a salidas
         </Link>
       </div>
       <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
@@ -281,13 +281,13 @@ const NewSell: PageWithLayout = () => {
                 <div className="flex flex-col space-y-5 w-full justify-between sm:flex-row sm:space-y-0 sm:items-end">
                   <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
                     <fieldset className="flex flex-col animate">
-                      <label className="input-label">Cédula del cliente</label>
+                      <label className="input-label">RIF/C.I. del cliente</label>
                       <input
                         type="text"
                         required
                         className="input"
                         autoComplete="off"
-                        placeholder="Cédula"
+                        placeholder="Número de documento"
                         {...bindDni}
                       />
                     </fieldset>

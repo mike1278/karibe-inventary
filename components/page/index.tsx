@@ -34,6 +34,16 @@ export interface PageProps extends SeoTagsProps {
   children?: ReactNode
 }
 
+export const useTheme = (brandLayout?: IBrandLayout) => {
+  const [layout] = useBrandLayout()
+  const [darkMode] = useDarkMode()
+  const [theme, setTheme] = useState(() => (brandLayout || layout).themes.normal)
+  useEffect(() => {
+    setTheme(layout.themes[darkMode ? 'dark' : 'normal'])
+  }, [layout, darkMode])
+  return theme
+}
+
 export const globalDataContext = createContext<any>(null)
 export const useGlobalDataContext = () => useContext(globalDataContext)
 

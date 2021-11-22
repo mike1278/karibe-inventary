@@ -217,7 +217,15 @@ const ProductCategories: PageWithLayout = () => {
           <div className="flex flex-col mx-auto space-y-6 w-full pb-16 lg:w-9/10">
             {(data !== undefined && columns) ? (
               <>
-                <Button className="self-end" icon={<UserFollow24 />} onClick={createUser}>Agregar categoría</Button>
+                {session?.user.role == 'ADMIN' ? (
+                  <Button
+                    className="self-end"
+                    icon={<UserFollow24 />}
+                    onClick={createUser}
+                  >
+                    Agregar categoría
+                  </Button>
+                ) : null}
                 <Table columns={columns} data={data?.categories || []} />
                 <div className="flex flex-col space-y-6 w-full justify-between items-center sm:flex-row sm:space-y-0">
                   <div className="flex space-x-6">
@@ -236,7 +244,11 @@ const ProductCategories: PageWithLayout = () => {
                       </span> registros por página</p>
                   </div>
                   <div className="flex space-x-6">
-                    <button className="disabled:cursor-not-allowed disabled:opacity-50" onClick={() => setPage(page - 1)} disabled={page == 1}>
+                    <button
+                      className="disabled:cursor-not-allowed disabled:opacity-50"
+                      onClick={() => setPage(page - 1)}
+                      disabled={page == 1}
+                    >
                       <ChevronLeft16 />
                     </button>
                     <p>Página
@@ -252,7 +264,11 @@ const ProductCategories: PageWithLayout = () => {
                           ))}
                         </select>
                       </span> de {data.maxPages || 1}</p>
-                    <button className="disabled:cursor-not-allowed disabled:opacity-50" onClick={() => setPage(page + 1)} disabled={page == data.maxPages || !data.maxPages}>
+                    <button
+                      className="disabled:cursor-not-allowed disabled:opacity-50"
+                      onClick={() => setPage(page + 1)}
+                      disabled={page == data.maxPages || !data.maxPages}
+                    >
                       <ChevronRight16 />
                     </button>
                   </div>
