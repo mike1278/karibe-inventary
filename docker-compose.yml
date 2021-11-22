@@ -30,16 +30,3 @@ services:
      - '8080:80'
     environment:
       PMA_HOST: db
-  app:
-    build: .
-    volumes:
-      - .:/app/
-      - /app/node_modules
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
-    links: 
-      - db:database
-    environment:
-      DATABASE_URL: "mysql://root:root@db:3306/db"
