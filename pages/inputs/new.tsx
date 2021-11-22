@@ -183,7 +183,6 @@ const NewBuy: PageWithLayout = () => {
           value={value}
           className="text-right w-24 input"
           min={1}
-          max={row.original.product.max - Math.max(0, row.original.product.stock)}
           onChange={e => {
             changeQuantity(+e.target.value, row.original.product.id)
           }}
