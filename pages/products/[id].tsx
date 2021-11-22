@@ -67,15 +67,17 @@ const ProductReports: PageWithLayout = () => {
                   <h4 className="font-bold text-lg">Inversión total:</h4>
                   <p className="font-bold text-red-500 text-4xl">${data.buyDetails.map(p => p.price * p.quantity).reduce((a, b) => a + b, 0).toFixed(2)}</p>
                 </div>
-                <div className="bg-bg-secondary rounded-lg flex flex-col space-y-2 shadow text-right w-full overflow-hidden print:hidden sm:col-span-full lg:col-span-3">
-                  <Chart
-                    chartData={data.sellDetails.map(d => ({
-                      value: d.inStock,
-                      datetime: d.createdAt,
-                    }))}
-                    title=""
-                  />
-                </div>
+                {data.sellDetails?.length ? (
+                  <div className="bg-bg-secondary rounded-lg flex flex-col space-y-2 shadow text-right w-full overflow-hidden print:hidden sm:col-span-full lg:col-span-3">
+                    <Chart
+                      chartData={data.sellDetails.map(d => ({
+                        value: d.inStock,
+                        datetime: d.createdAt,
+                      }))}
+                      title="Stock por salida"
+                    />
+                  </div>
+                ) : null}
                 <div className="flex flex-col space-y-2 text-right w-full sm:col-start-3 sm:col-span-2 lg:col-start-auto lg:col-span-1">
                   <h4 className="font-bold text-lg">Estadísticas</h4>
                   <div className="flex flex-col space-y-2 card">

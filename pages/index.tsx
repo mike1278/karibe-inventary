@@ -1,15 +1,18 @@
 import { PageWithLayout } from '@/components/page'
 import Viewport, { setAnim } from '@/components/viewport'
-import { BuyDetail, SellDetail } from '@prisma/client'
+import { Buy, BuyDetail, Sell, SellDetail } from '@prisma/client'
 import { Printer24 } from '@carbon/icons-react'
 import useSWR from 'swr'
 import { printElement } from '@/lib/utils/client'
 import { Button } from '@/components/button'
-import { useRef } from 'react'
+import React, { useRef } from 'react'
+import { Chart } from '@/components/chart'
 
 const monts = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
 
 type Reports = {
+  sells: Sell[]
+  buys: Buy[]
   sellDetails: SellDetail[]
   buyDetails: BuyDetail[]
 }
@@ -18,7 +21,7 @@ const Index: PageWithLayout = () => {
   const { data } = useSWR<Reports>(() => `/api/reports`)
 
   const wrapperRef = useRef<HTMLDivElement>()
-  
+
   return (
     <div className="py-4 c-lg">
       {data ? (
@@ -56,6 +59,28 @@ const Index: PageWithLayout = () => {
                 <h4 className="font-bold text-lg">Inversión total:</h4>
                 <p className="font-bold text-red-500 text-4xl">${data.buyDetails.map(p => p.price * p.quantity).reduce((a, b) => a + b, 0).toFixed(2)}</p>
               </div>
+              {data.sells.length ? (
+                <div className="bg-bg-secondary rounded-lg flex flex-col space-y-2 shadow text-right w-full overflow-hidden print:hidden sm:col-span-full lg:col-span-2">
+                  <Chart
+                    chartData={data.sells.map(d => ({
+                      value: d.priceTotal,
+                      datetime: d.createdAt,
+                    }))}
+                    title="Ganancias de salidas del mes"
+                  />
+                </div>
+              ) : null}
+              {data.buys.length ? (
+                <div className="bg-bg-secondary rounded-lg flex flex-col space-y-2 shadow text-right w-full overflow-hidden print:hidden sm:col-span-full lg:col-span-2">
+                  <Chart
+                    chartData={data.buys.map(d => ({
+                      value: d.priceTotal,
+                      datetime: d.createdAt,
+                    }))}
+                    title="Ganancias de entradas del mes"
+                  />
+                </div>
+              ) : null}
             </div>
             <div className="flex mx-auto w-full pb-16 justify-end lg:w-9/10">
               <Button className="print:hidden" onClick={() => printElement(wrapperRef.current)} icon={<Printer24 />}>Exportar reportes</Button>

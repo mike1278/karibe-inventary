@@ -6,6 +6,20 @@ const get: NextApiHandler = async (req, res) => {
   try {
     const now = new Date()
     const month = new Date(`${now.getFullYear()}/${now.getMonth() + 1}/01`)
+    const buys = await prisma.buy.findMany({
+      where: {
+        createdAt: {
+          gte: month,
+        }
+      }
+    })
+    const sells = await prisma.sell.findMany({
+      where: {
+        createdAt: {
+          gte: month,
+        }
+      }
+    })
     const buyDetails = await prisma.buyDetail.findMany({
       where: {
         createdAt: {
@@ -21,6 +35,8 @@ const get: NextApiHandler = async (req, res) => {
       }
     })
     res.status(200).json({
+      buys,
+      sells,
       buyDetails,
       sellDetails,
     })

@@ -328,7 +328,7 @@ const NewBuy: PageWithLayout = () => {
                 <Button className="self-end" icon={<UserFollow24 />} onClick={() => setMode(true)}>Agregar producto</Button>
                 <Table columns={columns} data={details} />
                 <div className="flex space-x-6 w-full justify-end">
-                  <p>Total: <span className="font-bold text-red-500">${details.map(d => d.product.providerPrice * d.quantity).reduce((a, b) => a + b, 0).toFixed(2)}</span></p>
+                  <p>Total: <span className="font-bold text-red-500">${details.map(d => d.providerPrice * d.quantity).reduce((a, b) => a + b, 0).toFixed(2)}</span></p>
                 </div>
                 <Button className="self-end" onClick={create}>Facturar</Button>
               </>
