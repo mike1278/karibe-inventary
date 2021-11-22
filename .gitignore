@@ -11,9 +11,6 @@ __pycache__
 env/
 .env/
 
-.env.local
-.env.local*
-
 # testing
 /coverage
 
