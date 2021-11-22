@@ -6,7 +6,7 @@
   "scripts": {
     "prisma": "dotenv -e .env.local -- prisma",
     "dev": "next dev",
-    "presentar": "prisma generate && dotenv -e .env.local -- prisma db push && dotenv -e .env.local -- prisma db seed && next build && next start",
+    "presentar": "prisma generate && dotenv -e .env.local -- prisma migrate deploy && dotenv -e .env.local -- prisma db seed && next build && next start",
     "build": "next build",
     "start": "next start",
     "test": "xo !*.config.js",

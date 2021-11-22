@@ -23,7 +23,7 @@ const Index: PageWithLayout = () => {
     <div className="py-4 c-lg">
       {data ? (
         <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
-          <div className="flex flex-col space-y-6">
+          <div className="flex flex-col space-y-6" ref={wrapperRef}>
             <div className="flex flex-col space-y-2">
               <div className="flex items-center sm:mb-0">
                 <h2 className="font-bold leading-normal text-2xl">
