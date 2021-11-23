@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "prisma": "dotenv -e .env.local -- prisma",
+    "prisma:bootstrap": "prisma generate && dotenv -e .env.local -- prisma migrate deploy && dotenv -e .env.local -- prisma db seed",
     "dev": "next dev",
     "presentar": "prisma generate && dotenv -e .env.local -- prisma migrate deploy && dotenv -e .env.local -- prisma db seed && next build && next start",
     "build": "next build",

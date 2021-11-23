@@ -18,6 +18,8 @@ github:
 ports:
   - port: 3000
     onOpen: notify
+  - port: 3306
+    onOpen: ignore
   - port: 8080
     onOpen: open-browser
 
@@ -28,6 +30,7 @@ tasks:
       pnpm install
     command: >
       npm install -g pnpm &&
+      pnpm prisma:bootstrap &&
       pnpm dev
   - name: Database service
     command: docker-compose up
