@@ -23,8 +23,11 @@ ports:
 
 tasks:
   - init: >
+      docker-compose pull &&
       npm install -g pnpm &&
       pnpm install
     command: >
       npm install -g pnpm &&
       pnpm dev
+  - name: Database service
+    command: docker-compose up
