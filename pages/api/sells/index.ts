@@ -54,8 +54,8 @@ const create: NextApiHandler = protect(async (req, res) => {
       }
       products.push({
         product,
-        price: product.providerPrice,
-        inStock: Math.max(0, product.stock),
+        price: product.price,
+        inStock: Math.max(0, product.stock) - +d.quantity,
         quantity: +d.quantity
       })
     }

@@ -63,9 +63,9 @@ export const formatDate = (str: string | Date, separator = '/') => {
   const d = new Date(str)
   const padLeft = (n: number) => ('00' + n).slice(-2)
   const dformat = [
-    padLeft(d.getDate()),
+    d.getFullYear(),
     padLeft(d.getMonth() + 1),
-    d.getFullYear()
+    padLeft(d.getDate()),
   ].join(separator)
   return dformat
 }

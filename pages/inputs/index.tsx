@@ -31,7 +31,7 @@ const getColumns = (): TableColumn<Buy>[] => ([
     Cell: ({ value }) => <span className="font-bold text-red-500">${value.toFixed(2)}</span>,
   },
   {
-    Header: 'Facturado por',
+    Header: 'Registrado por',
     accessor: 'user',
     Cell: ({ value }) => value.name,
   },

@@ -3,9 +3,9 @@ import Viewport, { setAnim } from '@/components/viewport'
 import { Buy, BuyDetail, Sell, SellDetail } from '@prisma/client'
 import { Printer24 } from '@carbon/icons-react'
 import useSWR from 'swr'
-import { printElement } from '@/lib/utils/client'
+import { formatDate, printElement } from '@/lib/utils/client'
 import { Button } from '@/components/button'
-import React, { useRef } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { Chart } from '@/components/chart'
 
 const monts = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
@@ -18,7 +18,27 @@ type Reports = {
 }
 
 const Index: PageWithLayout = () => {
-  const { data } = useSWR<Reports>(() => `/api/reports`)
+  const [filters, setFilters] = useState(() => ({
+    start: formatDate(new Date(`${new Date().getFullYear()}/${new Date().getMonth() + 1}/01`), '-'),
+    end: formatDate(new Date(), '-'),
+  }))
+
+  const [inputs, setInputs] = useState(() => filters)
+
+  const bindForm = useCallback((field: string) => ({
+    value: inputs[field],
+    onChange: (e) => {
+      const tmp = JSON.parse(JSON.stringify(inputs))
+      tmp[field] = e.target.value
+      setInputs(tmp)
+    }
+  }), [inputs])
+
+  const filter = useCallback(() => {
+    setFilters(inputs)
+  }, [inputs])
+
+  const { data } = useSWR<Reports>(() => `/api/reports?start=${filters.start}&end=${filters.end}`)
 
   const wrapperRef = useRef<HTMLDivElement>()
 
@@ -33,9 +53,38 @@ const Index: PageWithLayout = () => {
                   Reportes generales
                 </h2>
               </div>
-              <h3 className="leading-normal">
-                Reportes generales del último mes - {monts[new Date().getMonth()]} de {new Date().getFullYear()}
-              </h3>
+            </div>
+
+            <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
+              <fieldset className="flex flex-col w-full animate" style={setAnim({ d: '100ms' })}>
+                <label htmlFor="init" className="input-label">Fecha de inicio</label>
+                <input
+                  type="date"
+                  required
+                  max={inputs.end ? formatDate(inputs.end, '-') : ''}
+                  className="w-full input"
+                  id="init"
+                  style={{ height: 41 }}
+                  {...bindForm('start')}
+                />
+              </fieldset>
+
+              <fieldset className="flex flex-col w-full animate" style={setAnim({ d: '100ms' })}>
+                <label htmlFor="end" className="input-label">Fecha fin</label>
+                <input
+                  type="date"
+                  required
+                  disabled={!inputs.start}
+                  min={inputs.start ? formatDate(inputs.start, '-') : ''}
+                  max={formatDate(new Date(), '-')}
+                  className="w-full input"
+                  id="end"
+                  style={{ height: 41 }}
+                  {...bindForm('end')}
+                />
+              </fieldset>
+
+              <Button title="Filtrar" className="justify-center items-center" onClick={filter} />
             </div>
 
             <style type="text/css" media="print" jsx global>{`
@@ -66,7 +115,7 @@ const Index: PageWithLayout = () => {
                       value: d.priceTotal,
                       datetime: d.createdAt,
                     }))}
-                    title="Ganancias de salidas del mes"
+                    title="Salidas del mes"
                   />
                 </div>
               ) : null}
@@ -77,7 +126,7 @@ const Index: PageWithLayout = () => {
                       value: d.priceTotal,
                       datetime: d.createdAt,
                     }))}
-                    title="Ganancias de entradas del mes"
+                    title="Entradas del mes"
                   />
                 </div>
               ) : null}
@@ -86,9 +135,9 @@ const Index: PageWithLayout = () => {
               <Button className="print:hidden" onClick={() => printElement(wrapperRef.current)} icon={<Printer24 />}>Exportar reportes</Button>
             </div>
           </div>
-        </Viewport>
+        </Viewport >
       ) : null}
-    </div>
+    </div >
   )
 }
 

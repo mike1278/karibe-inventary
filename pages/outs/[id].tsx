@@ -121,7 +121,7 @@ const Sell: PageWithLayout = () => {
             <div className="flex flex-col mx-auto space-y-6 w-full pb-16 lg:w-9/10" ref={wrapperRef}>
               <div className="flex print:flex-col print:space-y-6 print:space-x-0 sm:space-x-6">
                 <p><span className="font-bold">Operador:</span> {data.user.name}</p>
-                <p><span className="font-bold">Facturado el:</span> {formatDate(data.createdAt)}</p>
+                <p><span className="font-bold">Registrado el:</span> {formatDate(data.createdAt)}</p>
               </div>
               <div className="flex print:flex-col print:space-y-6 print:space-x-0 sm:space-x-6">
                 <p><span className="font-bold">Documento del cliente:</span> {data.client.dni}</p>

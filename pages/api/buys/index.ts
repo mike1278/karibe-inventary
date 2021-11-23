@@ -43,7 +43,7 @@ const create: NextApiHandler = protect(async (req, res) => {
   const session = await getUser({ req })
   const details = JSON.parse(req.body)
   try {
-    const products: { product: Product, price: number, quantity: number }[] = []
+    const products: { product: Product, price: number, quantity: number, inStock: number }[] = []
     for await (const d of details) {
       const product = await prisma.product.update({
         where: { id: +d.productId }, data: {
@@ -54,18 +54,20 @@ const create: NextApiHandler = protect(async (req, res) => {
       products.push({
         product,
         price: product.providerPrice,
+        inStock: Math.max(0, product.stock) + +d.quantity,
         quantity: +d.quantity
       })
     }
 
     const priceTotal = products.map(p => p.price * p.quantity).reduce((a, b) => a + b, 0)
-    const sell = await prisma.buy.create({
+    const buy = await prisma.buy.create({
       data: {
         details: {
           createMany: {
             data: products.map((p) => ({
               price: p.price,
               productId: p.product.id,
+              inStock: p.inStock,
               quantity: p.quantity,
             }))
           }
@@ -95,7 +97,7 @@ const create: NextApiHandler = protect(async (req, res) => {
         }
       })
     }
-    res.status(200).json(sell)
+    res.status(200).json(buy)
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       // The .code property can be accessed in a type-safe manner

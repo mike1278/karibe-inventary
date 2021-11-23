@@ -13,6 +13,9 @@ import { useDarkMode } from '@/lib/dark-mode'
 import dynamic from 'next/dynamic'
 import { useUser } from '@/models/auth/user'
 import { signOut } from 'next-auth/client'
+import { useRouter } from 'next/router'
+import Image from 'next/image'
+import Logo from '@/public/venita.png'
 
 const DarkModeSwitch = dynamic(import('react-toggle-dark-mode').then(m => m.DarkModeSwitch), {
   ssr: false
@@ -27,6 +30,7 @@ export default function Navbar({ }: {
   const globalData = useGlobalDataContext()
 
   const [{ user }] = useUser()
+  const { push } = useRouter()
 
   const scrollHander = () => {
     setScrollY(window.scrollY)
@@ -66,6 +70,8 @@ export default function Navbar({ }: {
     return () => (window.removeEventListener('scroll', scrollHander))
   })
 
+  const [dark] = useDarkMode()
+
   return (
     <>
       <header className={`${s.header} transform-gpu ${(!sidebar && !isShowing) && '-translate-y-full pointer-events-none'}`}>
@@ -73,8 +79,9 @@ export default function Navbar({ }: {
         <div className={`flex items-center h-full w-full border-b ${scrollY > 0 ? 'border-x-gray-200' : 'border-transparent'}`}>
           <div className={`${s.headerWrapper} c-lg`}>
             <div className="flex overflow-hidden pointer-events-auto items-center">
-              <Link title="Home" className="font-bold font-title transform duration-200 hover:scale-95" href="/">
-                <h1 className="font-title text-fg-primary leading-[normal] py-4 pr-1 text-3xl select-none sm:text-4xl">{brand.brandName}</h1>
+              <Link title="Home" className="font-bold font-title transform duration-200 hover:scale-95" href="/" style={{ willChange: 'transform', filter: isDarkMode ? 'brightness(0) invert(1)' : 'unset' }}>
+                <Image src={Logo} width={190} height={90} objectFit="contain" />
+                {/* <h1 className="font-title text-fg-primary leading-[normal] py-4 pr-1 text-3xl select-none sm:text-4xl">{brand.brandName}</h1> */}
               </Link>
             </div>
             <div className={s.elements}>
@@ -113,7 +120,7 @@ export default function Navbar({ }: {
                       {
                         titulo: 'Cerrar sesión',
                         isButton: true,
-                        onClick: () => signOut({ redirect: false }),
+                        onClick: () => signOut({ redirect: false }).then(() => push('/login')),
                       }
                     ]}>
                       <div
