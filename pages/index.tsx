@@ -100,10 +100,10 @@ const Index: PageWithLayout = () => {
                 <h4 className="font-bold text-lg">Ganancias totales:</h4>
                 <p className="font-bold text-green-500 text-4xl">${data.sellDetails.map(p => p.price * p.quantity).reduce((a, b) => a + b, 0).toFixed(2)}</p>
               </div>
-              {/* <div className="flex flex-col space-y-2 text-right w-full card">
+              <div className="flex flex-col space-y-2 text-right w-full card">
                 <h4 className="font-bold text-lg">Productos solicitados:</h4>
                 <p className="font-bold text-4xl">~{data.buyDetails.map(p => p.quantity).reduce((a, b) => a + b, 0)}</p>
-              </div> */}
+              </div>
               <div className="flex flex-col space-y-2 text-right w-full card">
                 <h4 className="font-bold text-lg">Inversión total:</h4>
                 <p className="font-bold text-red-500 text-4xl">${data.buyDetails.map(p => p.price * p.quantity).reduce((a, b) => a + b, 0).toFixed(2)}</p>

@@ -214,7 +214,7 @@ const NewSell: PageWithLayout = () => {
         <div className="flex flex-col space-y-6">
           <div className="flex mb-4 items-center sm:mb-0">
             <h2 className="font-bold leading-normal text-2xl">
-              Facturar una nueva salida
+              Registrar una nueva salida
             </h2>
           </div>
 
@@ -308,7 +308,7 @@ const NewSell: PageWithLayout = () => {
                 <div className="flex space-x-6 w-full justify-end">
                   <p>Total: <span className="font-bold text-green-500">${details.map(d => d.product.price * d.quantity).reduce((a, b) => a + b, 0).toFixed(2)}</span></p>
                 </div>
-                <Button className="self-end" btnType="submit">Facturar</Button>
+                <Button className="self-end" btnType="submit">Registrar</Button>
               </>
             )}
           </form>

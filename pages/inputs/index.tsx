@@ -36,7 +36,7 @@ const getColumns = (): TableColumn<Buy>[] => ([
     Cell: ({ value }) => value.name,
   },
   {
-    Header: 'Facturada el',
+    Header: 'Registrada el',
     accessor: 'createdAt',
     Cell: ({ value }) => formatDate(value),
   },

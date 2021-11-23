@@ -262,7 +262,7 @@ const NewBuy: PageWithLayout = () => {
         <div className="flex flex-col space-y-6">
           <div className="flex mb-4 items-center sm:mb-0">
             <h2 className="font-bold leading-normal text-2xl">
-              Facturar una nueva entrada
+              Registrar una nueva entrada
             </h2>
           </div>
 
@@ -330,7 +330,7 @@ const NewBuy: PageWithLayout = () => {
                 <div className="flex space-x-6 w-full justify-end">
                   <p>Total: <span className="font-bold text-red-500">${details.map(d => d.providerPrice * d.quantity).reduce((a, b) => a + b, 0).toFixed(2)}</span></p>
                 </div>
-                <Button className="self-end" onClick={create}>Facturar</Button>
+                <Button className="self-end" onClick={create}>Registrar</Button>
               </>
             )}
           </div>

@@ -80,7 +80,7 @@ export default function Navbar({ }: {
           <div className={`${s.headerWrapper} c-lg`}>
             <div className="flex overflow-hidden pointer-events-auto items-center">
               <Link title="Home" className="font-bold font-title transform duration-200 hover:scale-95" href="/" style={{ willChange: 'transform', filter: isDarkMode ? 'brightness(0) invert(1)' : 'unset' }}>
-                <Image src={Logo} width={190} height={90} objectFit="contain" />
+                <Image src={Logo} width={190} height={94} objectFit="contain" />
                 {/* <h1 className="font-title text-fg-primary leading-[normal] py-4 pr-1 text-3xl select-none sm:text-4xl">{brand.brandName}</h1> */}
               </Link>
             </div>
