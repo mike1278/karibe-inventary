@@ -5,11 +5,13 @@ import { getProviders, getSession } from 'next-auth/client'
 import { GetServerSideProps } from 'next'
 import { FormEventHandler, useEffect, useState } from 'react'
 import Viewport, { setAnim } from '@/components/viewport'
-import { getDefaultBrandLayout } from '@/models/page/brand-layout'
 import { Account24 } from '@carbon/icons-react'
 import { useRouter } from 'next/router'
 import { useInput } from '@/lib/hooks'
 import { Button } from '@/components/button'
+import Image from 'next/image'
+import Logo from '@/public/venita.png'
+import { useDarkMode } from '@/lib/dark-mode'
 
 export const getServerSideProps: GetServerSideProps<LoginProps> = async (context) => {
   const providers = await getProviders()
@@ -126,12 +128,13 @@ const LoginBox = (data: LoginProps) => {
 }
 
 const Login: PageWithLayout = (data: LoginProps) => {
+  const [isDarkMode] = useDarkMode()
   return (
     <div className="flex flex-col h-full mx-auto w-full py-16 px-6 lg:w-[50%]">
       <Viewport className="animate" once style={setAnim({ y: '0.3rem' })}>
-        <h1 className="font-title mr-auto mt-2 text-fg-primary mb-10 leading-normal select-none t-h2">
-          {getDefaultBrandLayout().brandName}
-        </h1>
+        <div className="font-title mr-auto mt-2 text-fg-primary mb-10 leading-normal select-none t-h2" style={{ willChange: 'filter', filter: isDarkMode ? 'brightness(0) invert(1)' : 'unset' }}>
+          <Image src={Logo} width={190} height={95} objectFit="contain" />
+        </div>
         <div className="flex space-x-4 items-center">
           <Account24 />
           <h2 className="leading-none text-2xl">Iniciar sesión</h2>

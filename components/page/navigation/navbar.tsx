@@ -120,7 +120,7 @@ export default function Navbar({ }: {
                       {
                         titulo: 'Cerrar sesión',
                         isButton: true,
-                        onClick: () => signOut({ redirect: false }).then(() => push('/login')),
+                        onClick: () => signOut({ callbackUrl: '/' }),
                       }
                     ]}>
                       <div
