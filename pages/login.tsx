@@ -63,7 +63,7 @@ const LoginBox = (data: LoginProps) => {
 
   return (
     <Viewport
-      className="flex h-full mt-12 w-full items-center justify-center"
+      className="flex h-full mt-6 w-full items-center justify-center"
       style={setAnim({ y: '0.3rem' })}
       once
     >
