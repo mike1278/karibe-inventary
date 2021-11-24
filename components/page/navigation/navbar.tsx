@@ -74,9 +74,9 @@ export default function Navbar({ }: {
 
   return (
     <>
-      <header className={`${s.header} transform-gpu ${(!sidebar && !isShowing) && '-translate-y-full pointer-events-none'}`}>
+      <header className={`${s.header} transform-gpu bg-white shadow ${(!sidebar && !isShowing) && '-translate-y-full pointer-events-none'}`}>
         <Sidebar open={sidebar} toggle={toggleSidebar} />
-        <div className={`flex items-center h-full w-full border-b ${scrollY > 0 ? 'border-x-gray-200' : 'border-transparent'}`}>
+        <div className={`flex items-center h-full bg-white w-full border-b ${scrollY > 0 ? 'border-x-gray-200' : 'border-transparent'}`}>
           <div className={`${s.headerWrapper} c-lg`}>
             <div className="flex overflow-hidden pointer-events-auto items-center">
               <Link title="Home" className="font-bold font-title transform duration-200 hover:scale-95" href="/" style={{ willChange: 'transform', filter: isDarkMode ? 'brightness(0) invert(1)' : 'unset' }}>
@@ -126,28 +126,17 @@ export default function Navbar({ }: {
                       <div
                         className="cursor-pointer overflow-hidden"
                       >
-                        {user?.image ? (
-                          <img
-                            src={user.image}
-                            width={42}
-                            height={42}
-                            className="border bg-gray-300 border-x-gray-600 rounded-[50%] h-[42px] w-[42px]"
-                          />
-                        ) : (
-                          <div className="bg-gradient-to-br border from-green-400 to-purple-300 border-x-gray-600 rounded-[50%] h-[42px] w-[42px]" />
-                        )}
+                        <div className="h-[30px] flex items-center" >
+                          { user?.name }
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                          </svg>
+                        </div>
                       </div>
                     </CustomDropdown>
                   </div>
                 </>
               )}
-              <div className="hidden lg:block">
-                <DarkModeSwitch
-                  checked={isDarkMode}
-                  onChange={setDarkMode}
-                  size={16}
-                />
-              </div>
               {Navigation(globalData).length ? (
                 <div className="ml-6 lg:hidden">
                   <Hamburger open={sidebar} toggle={toggleSidebar} />

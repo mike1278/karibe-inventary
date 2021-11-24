@@ -48,11 +48,6 @@ const ProfileSettings: PageWithLayout = () => {
 
   return (
     <div className="py-4 c-lg">
-      <div className="flex text-xs w-full pb-6 uppercase">
-        <Link href="/" className="hover:underline">
-          Ir al dashboard
-        </Link>
-      </div>
       <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
         <div className="flex flex-col space-y-12">
           <div className="flex mb-4 items-center sm:mb-0">
@@ -64,20 +59,6 @@ const ProfileSettings: PageWithLayout = () => {
           <div className="flex flex-col space-y-12 w-full justify-center items-center sm:flex-row sm:space-y-0 sm:space-x-12">
             <div className="bg-bg-secondary rounded-xl shadow-lg w-full p-4 animate sm:w-auto">
               <div className="flex flex-col">
-                <div
-                  className="cursor-pointer mx-auto mb-6 overflow-hidden"
-                >
-                  {user?.image ? (
-                    <img
-                      src={user.image}
-                      width={42}
-                      height={42}
-                      className="border bg-gray-300 border-x-gray-600 rounded-[50%] h-[42px] w-[42px]"
-                    />
-                  ) : (
-                    <div className="bg-gradient-to-br border from-green-400 to-purple-300 border-x-gray-600 rounded-[50%] h-[128px] w-[128px]" />
-                  )}
-                </div>
 
                 <form
                   className="flex flex-col"

@@ -48,14 +48,14 @@ const Index: PageWithLayout = () => {
         <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
           <div className="flex flex-col space-y-6" ref={wrapperRef}>
             <div className="flex flex-col space-y-2">
-              <div className="flex items-center sm:mb-0">
-                <h2 className="font-bold leading-normal text-2xl">
+              <div className="flex items-center sm:mb-0 bg-white shadow px-3 py-2">
+                <h2 className="font-bold leading-normal text-xl">
                   Reportes generales
                 </h2>
               </div>
             </div>
 
-            <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
+            <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 items-bottom bg-white shadow px-3 py-2">
               <fieldset className="flex flex-col w-full animate" style={setAnim({ d: '100ms' })}>
                 <label htmlFor="init" className="input-label">Fecha de inicio</label>
                 <input
@@ -91,7 +91,7 @@ const Index: PageWithLayout = () => {
               @page {size: landscape; }
             `}</style>
 
-            <div className="mx-auto w-full grid gap-6 grid-cols-1 sm:grid-cols-4 lg:w-9/10">
+            <div className="mx-auto w-full grid gap-6 grid-cols-1 sm:grid-cols-4">
               <div className="flex flex-col space-y-2 text-right w-full card">
                 <h4 className="font-bold text-lg">Productos vendidos:</h4>
                 <p className="font-bold text-4xl">~{data.sellDetails.map(p => p.quantity).reduce((a, b) => a + b, 0)}</p>

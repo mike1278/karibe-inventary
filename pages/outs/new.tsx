@@ -206,33 +206,47 @@ const NewSell: PageWithLayout = () => {
   return (
     <div className="py-4 c-lg">
       <div className="flex text-xs w-full pb-6 uppercase">
-        <Link href="/outs" className="hover:underline">
+        {mode ? (
+          data ? (
+            <button
+              className="hover:underline px-3 py-2 bg-white border border-gray-100 shadow flex items-center"
+              onClick={() => {
+                setMode(false)
+              }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Ir hacia atrás
+            </button>
+          ) : <> </>
+        ) : 
+        <Link href="/outs" className="hover:underline px-3 py-2 bg-white border border-gray-100 shadow flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
           Ir a salidas
-        </Link>
+        </Link> }
       </div>
       <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
         <div className="flex flex-col space-y-6">
-          <div className="flex mb-4 items-center sm:mb-0">
+          <div className="flex mb-4 items-center justify-between px-3 py-2 bg-white shadow sm:mb-0">
             <h2 className="font-bold leading-normal text-2xl">
               Registrar una nueva salida
             </h2>
+            {mode ? (
+              data ? (
+                <> </>
+              ) : <> </>
+            ) : <Button className="self-end" icon={<UserFollow24 />} onClick={() => setMode(true)}>Agregar producto</Button>}
           </div>
 
-          <form className="flex flex-col mx-auto space-y-6 w-full pb-16 lg:w-9/10" onSubmit={create}>
+          <form className="flex flex-col mx-auto space-y-6 w-full pb-16" onSubmit={create}>
             {mode ? (
               data ? (
                 <>
-                  <button
-                    className="mr-auto text-xs uppercase hover:underline"
-                    type="reset"
-                    onClick={() => {
-                      setMode(false)
-                    }}
-                  >
-                    Ir hacia atrás
-                  </button>
                   <Table columns={productColumns} data={data?.products || []} />
-                  <div className="flex flex-col space-y-6 w-full justify-between items-center sm:flex-row sm:space-y-0">
+                  <div className="flex flex-col bg-white shadow px-3 py-2 space-y-6 w-full justify-between items-center sm:flex-row sm:space-y-0">
                     <div className="flex space-x-6">
                       <p>Viendo
                         <span className="px-2">
@@ -278,7 +292,7 @@ const NewSell: PageWithLayout = () => {
               )
             ) : (
               <>
-                <div className="flex flex-col space-y-5 w-full justify-between sm:flex-row sm:space-y-0 sm:items-end">
+                <div className="flex flex-col space-y-5 w-full px-3 py-2 shadow bg-white justify-between sm:flex-row sm:space-y-0 sm:items-end">
                   <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
                     <fieldset className="flex flex-col animate">
                       <label className="input-label">RIF/C.I. del cliente</label>
@@ -302,7 +316,6 @@ const NewSell: PageWithLayout = () => {
                       />
                     </fieldset>
                   </div>
-                  <Button className="self-end" icon={<UserFollow24 />} onClick={() => setMode(true)}>Agregar producto</Button>
                 </div>
                 <Table columns={columns} data={details} />
                 <div className="flex space-x-6 w-full justify-end">

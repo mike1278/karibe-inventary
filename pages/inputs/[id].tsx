@@ -86,14 +86,9 @@ const Buy: PageWithLayout = () => {
 
   return (
     <div className="py-4 c-lg">
-      <div className="flex text-xs w-full pb-6 uppercase">
-        <Link href="/" className="hover:underline">
-          Ir al dashboard
-        </Link>
-      </div>
       <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
         <div className="flex flex-col space-y-6">
-          <div className="flex mb-4 items-center sm:mb-0">
+          <div className="flex mb-4 items-center sm:mb-0 bg-white px-3 py-2 shadow">
             <h2 className="font-bold leading-normal text-2xl">
               Detalles de entrada
             </h2>
@@ -104,8 +99,8 @@ const Buy: PageWithLayout = () => {
           `}</style>
 
           {data ? (
-            <div className="flex flex-col mx-auto space-y-6 w-full pb-16 lg:w-9/10" ref={wrapperRef}>
-              <div className="flex print:flex-col print:space-y-6 print:space-x-0 sm:space-x-6">
+            <div className="flex flex-col mx-auto space-y-6 w-full pb-16" ref={wrapperRef}>
+              <div className="flex print:flex-col print:space-y-6 print:space-x-0 sm:space-x-6 bg-white px-3 py-2 shadow">
                 <p><span className="font-bold">Operador:</span> {data.user.name}</p>
                 <p><span className="font-bold">Registrado el:</span> {formatDate(data.createdAt)}</p>
               </div>
