@@ -209,7 +209,7 @@ const ProductCategories: PageWithLayout = () => {
       <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
         <div className="flex flex-col space-y-6">
           <div className="flex mb-4 items-center sm:mb-0">
-            <h2 className="font-bold leading-normal text-2xl">
+            <h2 className="font-bold leading-normal text-2xl justify-between">
               Categorías de productos
             </h2>
           </div>
