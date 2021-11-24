@@ -80,7 +80,7 @@ const ProductReports: PageWithLayout = () => {
                   </h2>
                 </div>
 
-                <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 bg-white px-3 py-2 shadow">
+                <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 items-end lg:grid-cols-5 bg-white px-3 py-2 shadow">
                   <fieldset className="flex flex-col w-full animate" style={setAnim({ d: '100ms' })}>
                     <label htmlFor="init" className="input-label">Fecha de inicio</label>
                     <input

@@ -50,14 +50,14 @@ const ProfileSettings: PageWithLayout = () => {
     <div className="py-4 c-lg">
       <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
         <div className="flex flex-col space-y-12">
-          <div className="flex mb-4 items-center sm:mb-0">
-            <h2 className="font-bold leading-normal text-2xl">
+          <div className="flex mb-4 items-center bg-white px-3 py-2 shadow sm:mb-0">
+            <h2 className="font-bold leading-normal text-gray-700 text-2xl">
               Configuración de la cuenta
             </h2>
           </div>
 
-          <div className="flex flex-col space-y-12 w-full justify-center items-center sm:flex-row sm:space-y-0 sm:space-x-12">
-            <div className="bg-bg-secondary rounded-xl shadow-lg w-full p-4 animate sm:w-auto">
+          <div className="flex flex-col jusify-strech space-y-12 w-full justify-center items-stretch sm:flex-row sm:space-y-0 sm:space-x-12">
+            <div className="bg-bg-secondary rounded-xl shadow-lg w-full p-4 animate">
               <div className="flex flex-col">
 
                 <form
@@ -69,7 +69,7 @@ const ProfileSettings: PageWithLayout = () => {
                     <input
                       type="text"
                       required
-                      className="w-full input sm:w-64"
+                      className="w-full input"
                       id="name"
                       placeholder="Ex. Victor Campos"
                       {...bindName}
@@ -81,7 +81,7 @@ const ProfileSettings: PageWithLayout = () => {
                     <input
                       type="email"
                       required
-                      className="w-full input sm:w-64"
+                      className="w-full input"
                       id="email"
                       placeholder="Ex. johndoe@gmail.com"
                       {...bindEmail}
@@ -93,7 +93,7 @@ const ProfileSettings: PageWithLayout = () => {
                     <input
                       type="text"
                       required
-                      className="w-full input sm:w-64"
+                      className="w-full input"
                       id="username"
                       placeholder="Ex. victorcampos"
                       {...bindUsername}
@@ -111,38 +111,42 @@ const ProfileSettings: PageWithLayout = () => {
                 </form>
               </div>
             </div>
-            <div className="bg-bg-secondary rounded-xl shadow-lg w-full p-4 animate sm:w-auto">
-              <div className="flex flex-col">
+            <div className="bg-bg-secondary rounded-xl shadow-lg w-full p-4 animate">
+              <div className="flex flex-col h-full">
                 <form
-                  className="flex flex-col"
+                  className="flex flex-col justify-between h-full"
                   onSubmit={updateAccount}
                 >
-                  <label className="mb-4 input-label">Cambiar contraseña</label>
-                  <fieldset className="flex flex-col mb-4 animate" style={setAnim({ d: '100ms' })}>
-                    <input
-                      type="password"
-                      minLength={6}
-                      maxLength={12}
-                      required
-                      autoComplete="off"
-                      className="w-full input sm:w-64"
-                      id="pwd"
-                      placeholder="Escriba la nueva contraseña"
-                      {...bindPwd}
-                    />
-                  </fieldset>
+                  <div>
+                    <label className="mb-4 input-label">Cambiar contraseña</label>
+                    <fieldset className="flex flex-col mb-4 animate" style={setAnim({ d: '100ms' })}>
+                      <input
+                        type="password"
+                        minLength={6}
+                        maxLength={12}
+                        required
+                        autoComplete="off"
+                        className="w-full input"
+                        id="pwd"
+                        placeholder="Escriba la nueva contraseña"
+                        {...bindPwd}
+                      />
+                    </fieldset>
 
-                  <fieldset className="flex flex-col mb-6 animate" style={setAnim({ d: '200ms' })}>
-                    <input
-                      type="password"
-                      required
-                      autoComplete="off"
-                      className="w-full input sm:w-64"
-                      id="re-pwd"
-                      placeholder="Repita la contraseña"
-                      {...bindRePwd}
-                    />
-                  </fieldset>
+                    <fieldset className="flex flex-col mb-6 animate" style={setAnim({ d: '200ms' })}>
+                    <label htmlFor="username" className="input-label">Confirmaciòn de contraseña</label>
+                      <input
+                        type="password"
+                        required
+                        autoComplete="off"
+                        className="w-full input"
+                        id="re-pwd"
+                        placeholder="Repita la contraseña"
+                        {...bindRePwd}
+                      />
+                    </fieldset>
+
+                  </div>
 
                   <Button
                     rounded={false}

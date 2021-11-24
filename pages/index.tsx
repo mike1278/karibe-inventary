@@ -7,6 +7,8 @@ import { formatDate, printElement } from '@/lib/utils/client'
 import { Button } from '@/components/button'
 import React, { useCallback, useRef, useState } from 'react'
 import { Chart } from '@/components/chart'
+import Logo from '@/public/venita.png'
+import Image from 'next/image'
 
 const monts = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
 
@@ -46,6 +48,7 @@ const Index: PageWithLayout = () => {
     <div className="py-4 c-lg">
       {data ? (
         <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
+          <div className="image_print" />
           <div className="flex flex-col space-y-6" ref={wrapperRef}>
             <div className="flex flex-col space-y-2">
               <div className="flex items-center sm:mb-0 bg-white shadow px-3 py-2">
@@ -55,7 +58,7 @@ const Index: PageWithLayout = () => {
               </div>
             </div>
 
-            <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 items-bottom bg-white shadow px-3 py-2">
+            <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 items-end lg:grid-cols-5 items-bottom bg-white shadow px-3 py-2">
               <fieldset className="flex flex-col w-full animate" style={setAnim({ d: '100ms' })}>
                 <label htmlFor="init" className="input-label">Fecha de inicio</label>
                 <input
@@ -131,7 +134,7 @@ const Index: PageWithLayout = () => {
                 </div>
               ) : null}
             </div>
-            <div className="flex mx-auto w-full pb-16 justify-end lg:w-9/10">
+            <div className="flex mx-auto w-full pb-16 justify-end">
               <Button className="print:hidden" onClick={() => printElement(wrapperRef.current)} icon={<Printer24 />}>Exportar reportes</Button>
             </div>
           </div>
