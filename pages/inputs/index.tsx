@@ -70,11 +70,11 @@ const Products: PageWithLayout = () => {
     <div className="py-4 c-lg">
       <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
         <div className="flex flex-col space-y-6">
-          <div className="flex mb-4 justify-between bg-white px-3 py-2 shadow items-center sm:mb-0">
-            <h2 className="font-bold leading-normal text-2xl">
+          <div className="flex mb-4 flex-col md:flex-row justify-center md:justify-between bg-white px-3 py-2 shadow items-center sm:mb-0">
+            <h2 className="font-bold leading-normal text-2xl mb-2 md:mb-0">
               Entradas
             </h2>
-            <Button href="/inputs/new" className="self-end" icon={<UserFollow24 />}>Registrar entrada</Button>
+            <Button href="/inputs/new" icon={<UserFollow24 />}>Registrar entrada</Button>
           </div>
 
           <div className="flex flex-col mx-auto space-y-6 w-full pb-16">

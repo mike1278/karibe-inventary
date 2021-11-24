@@ -230,15 +230,15 @@ const NewSell: PageWithLayout = () => {
       </div>
       <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
         <div className="flex flex-col space-y-6">
-          <div className="flex mb-4 items-center justify-between px-3 py-2 bg-white shadow sm:mb-0">
-            <h2 className="font-bold leading-normal text-2xl">
+          <div className="flex flex-col md:flex-row mb-4 items-center justify-center md:justify-between px-3 py-2 bg-white shadow sm:mb-0">
+            <h2 className="font-bold leading-normal text-2xl mb-2 md:mb-0">
               Registrar una nueva salida
             </h2>
             {mode ? (
               data ? (
                 <> </>
               ) : <> </>
-            ) : <Button className="self-end" icon={<UserFollow24 />} onClick={() => setMode(true)}>Agregar producto</Button>}
+            ) : <Button icon={<UserFollow24 />} onClick={() => setMode(true)}>Agregar producto</Button>}
           </div>
 
           <form className="flex flex-col mx-auto space-y-6 w-full pb-16" onSubmit={create}>

@@ -278,15 +278,15 @@ const NewBuy: PageWithLayout = () => {
       </div>
       <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
         <div className="flex flex-col space-y-6">
-          <div className="flex mb-4 justify-between bg-white px-3 py-2 shadow items-center sm:mb-0">
-            <h2 className="font-bold leading-normal text-xl text-gray-700">
+          <div className="flex mb-4 flex-col md:flex-row justify-center md:justify-between bg-white px-3 py-2 shadow items-center sm:mb-0">
+            <h2 className="font-bold leading-normal text-xl text-gray-700 mb-2 md:mb-0">
               Registrar una nueva entrada
             </h2>
             {mode ? (
               data ? (
                 <> </>
               ) : <> </>
-            ) : <Button className="self-end" icon={<UserFollow24 />} onClick={() => setMode(true)}>Agregar producto</Button>}
+            ) : <Button icon={<UserFollow24 />} onClick={() => setMode(true)}>Agregar producto</Button>}
           </div>
 
           <div className="flex flex-col mx-auto space-y-6 w-full pb-16">
