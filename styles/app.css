@@ -7,6 +7,10 @@
     color-adjust: exact !important;                 /*Firefox*/
 }
 
+.bg-login {
+    background-image: url('/login.jpg');
+}
+
 .image_print {
     background-image: url('/venita.png');
     display: none;
