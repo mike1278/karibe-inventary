@@ -40,10 +40,34 @@ const get: NextApiHandler = async (req, res) => {
   }
 }
 
+const put: NextApiHandler = async (req, res) => {
+  const { id } = req.query
+  const data = JSON.parse(req.body)
+  try {
+    const product = await prisma.product.update({
+      where: { id: +id },
+      include: { category: true },
+      data: {
+        name: data.name || undefined,
+        price: +data.price ?? undefined,
+        providerPrice: +data.providerPrice ?? undefined,
+        categoryId: +data.categoryId || undefined,
+        sku: data.sku || undefined,
+      }
+    })
+    res.status(200).json(product)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ error })
+  }
+}
+
 const handler: NextApiHandler = async (req, res) => {
   switch (req.method) {
     case 'GET':
       return get(req, res)
+    case 'PUT':
+      return put(req, res)
     default:
       res.status(404).end()
       return

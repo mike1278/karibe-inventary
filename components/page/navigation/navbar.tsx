@@ -150,7 +150,7 @@ export default function Navbar({ }: {
                       </div>
                     </CustomDropdown>
                   </div>
-                  <div className="text-sm lg:mr-4" style={{
+                  <div className="text-sm" style={{
                     pointerEvents: notifications?.length ? 'auto' : 'none'
                   }}>
                     <CustomDropdown titulo="Notificaciones" links={notifications?.length ? notifications.map(n => ({ ...n, titulo: n.name })) : []}>
@@ -167,7 +167,7 @@ export default function Navbar({ }: {
                         )}
                         <div className="border-transparent flex font-bold border-b-[3px] -mt-[3px] items-center">
                           {notifications?.length ? (
-                            <Notification16 className="h-5 w-5" />
+                            <Notification16 className="h-5 w-5"  />
                           ) : (
                             <NotificationOff16 className="h-5 w-5" />
                           )}
