@@ -17,7 +17,7 @@ export const CustomDropdown = ({titulo, links, children}: {
           {links.map((l, i) => (
             !l.isButton ? (
               <Link href={l.href} key={i}>
-                <a className={s.navLink}>{l.titulo}</a>
+                <a className={s.navLink} dangerouslySetInnerHTML={{ __html: l.titulo }} />
               </Link>
             ) : (
               <button key={i} className={`${s.navLink} outline-none focus:outline-none`} onClick={l.onClick}>

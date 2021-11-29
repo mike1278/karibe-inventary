@@ -50,7 +50,7 @@ const ProfileSettings: PageWithLayout = () => {
     <div className="py-4 c-lg">
       <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
         <div className="flex flex-col space-y-12">
-          <div className="flex mb-4 items-center bg-white px-3 py-2 shadow sm:mb-0">
+          <div className="flex mb-4 items-center bg-bg-secondary px-3 py-2 shadow sm:mb-0">
             <h2 className="font-bold leading-normal text-gray-700 text-2xl">
               Configuración de la cuenta
             </h2>

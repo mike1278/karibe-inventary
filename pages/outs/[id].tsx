@@ -6,9 +6,11 @@ import { useCallback, useMemo, useRef, useState } from 'react'
 import useSWR from 'swr'
 import { Sell as DBSell, Product as DBPRoduct, SellDetail as DBSellDetail, ProductCategory, User, Client } from '@prisma/client'
 import { Button } from '@/components/button'
-import { formatDate, printElement } from '@/lib/utils/client'
+import { printElement } from '@/lib/utils/client'
 import { Printer24 } from '@carbon/icons-react'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
+import Logo from '@/public/venita.png'
 
 type Product = DBPRoduct & {
   category: ProductCategory
@@ -61,19 +63,19 @@ const getColumns = (): TableColumn<SellDetail>[] => ([
     Header: 'Cantidad',
     accessor: 'quantity',
   },
-  {
-    Header: 'Cantidad actual en stock',
-    id: 'stock',
-    Cell: ({ row }) => {
-      const rest = Math.max(0, row.original.product.stock) - row.original.quantity
-      const warn = rest <= row.original.product.min
-      return (
-        <span className={warn ? 'text-red-500' : ''}>
-          {rest} {warn ? '(En agotamiento)' : ''}
-        </span>
-      )
-    }
-  },
+  // {
+  //   Header: 'Cantidad actual en stock',
+  //   id: 'stock',
+  //   Cell: ({ row }) => {
+  //     const rest = Math.max(0, row.original.product.stock) - row.original.quantity
+  //     const warn = rest <= row.original.product.min
+  //     return (
+  //       <span className={warn ? 'text-red-500' : ''}>
+  //         {rest} {warn ? '(En agotamiento)' : ''}
+  //       </span>
+  //     )
+  //   }
+  // },
   {
     Header: 'Precio total',
     id: 'total',
@@ -101,8 +103,11 @@ const Sell: PageWithLayout = () => {
   return (
     <div className="py-4 c-lg">
       <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
-        <div className="flex flex-col space-y-6">
-          <div className="flex mb-4 items-center sm:mb-0 bg-white px-3 py-2 shadow">
+        <div className="flex flex-col space-y-6" ref={wrapperRef}>
+          <div className="mx-auto hidden print:flex">
+            <Image src={Logo} width={190} height={94} objectFit="contain" loading="eager" />
+          </div>
+          <div className="bg-bg-secondary flex shadow mb-4 py-2 px-3 items-center print:shadow-none sm:mb-0">
             <h2 className="font-bold leading-normal text-2xl">
               Detalles de salida
             </h2>
@@ -113,11 +118,11 @@ const Sell: PageWithLayout = () => {
           `}</style>
 
           {data ? (
-            <div className="flex flex-col mx-auto space-y-6 w-full pb-16" ref={wrapperRef}>
-              <div className="bg-white px-3 py-2 shadow">
+            <div className="flex flex-col mx-auto space-y-6 w-full pb-16">
+              <div className="bg-bg-secondary shadow py-2 px-3 print:shadow-none">
                 <div className="flex print:flex-col print:space-y-4 print:space-x-0 sm:space-x-4">
                   <p><span className="font-bold">Operador:</span> {data.user.name}</p>
-                  <p><span className="font-bold">Registrado el:</span> {formatDate(data.createdAt)}</p>
+                  <p><span className="font-bold">Registrado el:</span> {new Date(data.createdAt).toLocaleString()}</p>
                   <p><span className="font-bold">Documento del cliente:</span> {data.client.dni}</p>
                   <p><span className="font-bold">Nombre del cliente:</span> {data.client.name}</p>
                 </div>

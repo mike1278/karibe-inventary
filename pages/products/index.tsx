@@ -62,15 +62,20 @@ export const getProductColumns = (): TableColumn<Product>[] => ([
   {
     Header: 'Stock',
     accessor: 'stock',
-    Cell: ({ value }) => (
-      value >= 0 ? value : (
+    Cell: ({ value, row }) => {
+      const warn = row.original.stock <= row.original.min
+      return value >= 0 ? (
+        <span className={warn ? 'text-red-500' : ''}>
+          {Math.max(0, row.original.stock)} {warn ? '(En agotamiento)' : ''}
+        </span>
+      ) : (
         <span
           className={`rounded-full mx-auto bg-fg-primary shadow-sm text-bg-secondary text-xs p-2`}
         >
           Nuevo
         </span>
       )
-    )
+    }
   },
   {
     Header: 'Creado el',
@@ -348,7 +353,7 @@ const Products: PageWithLayout = () => {
     <div className="py-4 c-lg">
       <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
         <div className="flex flex-col space-y-6">
-          <div className="flex mb-4 justify-between bg-white px-3 py-2 shadow items-center sm:mb-0">
+          <div className="bg-bg-secondary flex shadow mb-4 py-2 px-3 justify-between items-center sm:mb-0">
             <h2 className="font-bold leading-normal text-2xl">
               Productos
             </h2>
@@ -361,7 +366,7 @@ const Products: PageWithLayout = () => {
             {(data !== undefined && columns) ? (
               <>
                 <Table columns={columns} data={data?.products || []} />
-                <div className="flex flex-col space-y-6 w-full justify-between items-center sm:flex-row sm:space-y-0 bg-white px-3 py-2 shadow">
+                <div className="bg-bg-secondary flex flex-col space-y-6 shadow w-full py-2 px-3 justify-between items-center sm:flex-row sm:space-y-0">
                   <div className="flex space-x-6">
                     <p>Viendo
                       <span className="px-2">

@@ -3,39 +3,22 @@ import prisma from '@/lib/db'
 import protect from '@/lib/middlewares/protect'
 
 const get: NextApiHandler = async (req, res) => {
-  const { id } = req.query
   try {
     const now = new Date()
     const start = new Date(req.query.start as string || new Date(`${now.getFullYear()}/${now.getMonth() + 1}/01`))
     let end = new Date(req.query.end as string || now)
     end.setDate(end.getDate() + 1)
-    const product = await prisma.product.findUnique({ where: { id: +id }, include: { category: true } })
-    const buyDetails = await prisma.buyDetail.findMany({
-      where: {
-        productId: +id,
-        createdAt: {
-          gte: start,
-          lte: end,
-        }
+    const products = await prisma.product.findMany({
+      orderBy: {
+        createdAt: 'desc',
       }
     })
-    console.log(buyDetails)
-    const sellDetails = await prisma.sellDetail.findMany({
-      where: {
-        productId: +id,
-        createdAt: {
-          gte: start,
-          lte: end,
-        }
-      }
-    })
-    res.status(200).json({
-      product,
-      buyDetails,
-      sellDetails,
-    })
+    const filtered = products.filter(p => p.stock < p.min).map(p => ({
+      name: p.stock == -1 ? `Nuevo producto: <strong>${p.name}</strong>` : `<strong>${p.name}</strong> en agotamiento`,
+      href: `/inputs/new?product=${p.id}`
+    }))
+    res.status(200).json(filtered)
   } catch (error) {
-    console.error(error)
     res.status(500).json({ error })
   }
 }

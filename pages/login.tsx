@@ -68,7 +68,7 @@ const LoginBox = (data: LoginProps) => {
       style={setAnim({ y: '0.3rem' })}
       once
     >
-      <div className="animate w-full">
+      <div className="w-full animate">
         <Viewport
           className="flex flex-col"
           style={setAnim({ y: '0.3rem' })}
@@ -130,12 +130,16 @@ const LoginBox = (data: LoginProps) => {
 
 const Login: PageWithLayout = (data: LoginProps) => {
   const [isDarkMode] = useDarkMode()
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => {
+    setMounted(true)
+  }, [])
   return (
     <div className="flex h-full w-full">
-      <Viewport className="animate w-full px-3 md:w-1/2 lg:w-1/4 bg-white flex flex-col justify-center items-center" once style={setAnim({ y: '0.3rem' })}>
+      <Viewport className="bg-bg-secondary flex flex-col w-full px-3 animate justify-center items-center md:w-1/2 lg:w-1/4" once style={setAnim({ y: '0.3rem' })}>
         <div 
           className="font-title mt-2 text-fg-primary leading-normal select-none t-h2" 
-          style={{ willChange: 'filter', filter: isDarkMode ? 'brightness(0) invert(1)' : 'unset' }}
+          style={{ willChange: 'filter', filter: isDarkMode && mounted ? 'brightness(0) invert(1)' : 'unset' }}
         >
           <Image src={Logo} className="w-32" objectFit="contain" />
         </div>
@@ -145,7 +149,7 @@ const Login: PageWithLayout = (data: LoginProps) => {
         </div>
         <LoginBox />
       </Viewport>
-      <div className="hidden bg-login md:block md:w-1/2 lg:w-3/4 bg-no-repeat bg-cover bg-right" />
+      <div className="bg-login bg-no-repeat bg-cover bg-right hidden md:w-1/2 md:block lg:w-3/4" />
     </div>
   )
 }
