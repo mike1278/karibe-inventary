@@ -51,6 +51,8 @@
 	@apply shadow-lg;
 	@apply bg-bg-secondary;
 	@apply rounded-xl;
+	@apply border;
+	@apply border-gray-300;
 }
 
 .wrapper {
