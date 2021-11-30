@@ -37,7 +37,7 @@ const getColumns = (): TableColumn<Sell>[] => ([
   {
     Header: 'Ganancia total',
     accessor: 'priceTotal',
-    Cell: ({ value }) => <span className="font-bold text-green-500">${value.toFixed(2)}</span>,
+    Cell: ({ value }) => <span className="font-bold ">${value.toFixed(2)}</span>,
   },
   {
     Header: 'Registrado por',

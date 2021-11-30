@@ -8,7 +8,7 @@ export const ErrorCard = ({ message }: { message: string}) => (
     oneWay
   >
     <div className="border rounded-lg border-x-gray-800 shadow p-4">
-      <Error32 className="m-auto mb-4 w-full text-red-500 sm:w-auto" width={48} height={48} />
+      <Error32 className="m-auto mb-4 w-full  sm:w-auto" width={48} height={48} />
       <p className="text-center text-sm leading-none">
         {message}
       </p>

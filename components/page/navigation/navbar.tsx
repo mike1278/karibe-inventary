@@ -14,7 +14,7 @@ import dynamic from 'next/dynamic'
 import { useUser } from '@/models/auth/user'
 import { signOut } from 'next-auth/client'
 import { useRouter } from 'next/router'
-import { Notification16, UserAvatar16, NotificationOff16 } from '@carbon/icons-react'
+import { Notification16, UserAvatar16, NotificationOff16, Help16 } from '@carbon/icons-react'
 import Image from 'next/image'
 import Logo from '@/public/venita.png'
 import useSWR from 'swr'
@@ -118,6 +118,25 @@ export default function Navbar({ }: {
               </div>
               {user && (
                 <>
+                  <div className="text-sm mr-4">
+                    <CustomDropdown titulo={`Ayuda`} links={[
+                      {
+                        titulo: 'Ver manual de usuario',
+                        href: '/manual.pdf',
+                        target: '_blank'
+                      },
+                    ]}>
+                      <div
+                        className="cursor-pointer"
+                      >
+                        <div className="border-transparent flex border-b-[3px] -mt-[3px] items-center">
+                          <div className="bg-bg-primary border rounded-full border-gray-400 shadow-sm p-2">
+                            <Help16 className="h-5 w-5" />
+                          </div>
+                        </div>
+                      </div>
+                    </CustomDropdown>
+                  </div>
                   <div className="text-sm mr-4">
                     <CustomDropdown titulo={`Hola, ${user?.name?.split(' ').slice(0, 2).join(' ')}`} links={[
                       ...(user?.role === 'ADMIN' ? [

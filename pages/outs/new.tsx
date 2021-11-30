@@ -58,7 +58,7 @@ const getColumns = (): TableColumn<BuyDetail>[] => ([
   {
     Header: 'Precio de venta',
     id: 'price',
-    Cell: ({ row }) => <span className="font-bold text-green-500">${row.original.product.price.toFixed(2)}</span>,
+    Cell: ({ row }) => <span className="font-bold ">${row.original.product.price.toFixed(2)}</span>,
   },
 ])
 
@@ -152,7 +152,7 @@ const NewSell: PageWithLayout = () => {
         const rest = Math.max(0, row.original.product.stock) - row.original.quantity
         const warn = rest <= row.original.product.min
         return (
-          <span className={warn ? 'text-red-500' : ''}>
+          <span className={warn ? '' : ''}>
             {rest} {warn ? '(En agotamiento)' : ''}
           </span>
         )
@@ -161,7 +161,7 @@ const NewSell: PageWithLayout = () => {
     {
       Header: 'Precio total',
       id: 'total',
-      Cell: ({ row }) => <span className="font-bold text-green-500">${(row.original.product.price * row.original.quantity).toFixed(2)}</span>,
+      Cell: ({ row }) => <span className="font-bold ">${(row.original.product.price * row.original.quantity).toFixed(2)}</span>,
     },
     {
       Header: 'Eliminar',
@@ -320,7 +320,7 @@ const NewSell: PageWithLayout = () => {
                 </div>
                 <Table columns={columns} data={details} />
                 <div className="flex space-x-6 w-full justify-end">
-                  <p>Total: <span className="font-bold text-green-500">${details.map(d => d.product.price * d.quantity).reduce((a, b) => a + b, 0).toFixed(2)}</span></p>
+                  <p>Total: <span className="font-bold ">${details.map(d => d.product.price * d.quantity).reduce((a, b) => a + b, 0).toFixed(2)}</span></p>
                 </div>
                 <Button className="self-end" btnType="submit">Registrar</Button>
               </>

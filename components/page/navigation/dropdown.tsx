@@ -3,9 +3,9 @@ import Link from 'next/link'
 import { ChevronDown16 } from '@carbon/icons-react'
 import { ReactNode } from 'react'
 
-export const CustomDropdown = ({titulo, links, children}: {
+export const CustomDropdown = ({ titulo, links, children }: {
   titulo: string,
-  links: {titulo: string, href?: string, isButton?: boolean, onClick?: any}[],
+  links: { titulo: string, href?: string, isButton?: boolean, onClick?: any, target?: string }[],
   children?: ReactNode
 }) => (
   <div className={s.dropdown}>
@@ -16,9 +16,13 @@ export const CustomDropdown = ({titulo, links, children}: {
           <p className="font-bold text-right mb-4">{titulo}</p>
           {links.map((l, i) => (
             !l.isButton ? (
-              <Link href={l.href} key={i}>
-                <a className={s.navLink} dangerouslySetInnerHTML={{ __html: l.titulo }} />
-              </Link>
+              l.target ? (
+                <a href={l.href} className={s.navLink} target={l.target} dangerouslySetInnerHTML={{ __html: l.titulo }} />
+              ) : (
+                <Link href={l.href} key={i}>
+                  <a className={s.navLink} target={s.target} dangerouslySetInnerHTML={{ __html: l.titulo }} />
+                </Link>
+              )
             ) : (
               <button key={i} className={`${s.navLink} outline-none focus:outline-none`} onClick={l.onClick}>
                 {l.titulo}

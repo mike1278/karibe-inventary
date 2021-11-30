@@ -61,7 +61,7 @@ const getColumns = (): TableColumn<BuyDetail>[] => ([
   // {
   // Header: 'Precio de venta',
   // id: 'price',
-  // Cell: ({ row }) => <span className="font-bold text-red-500">${row.original.product.providerPrice.toFixed(2)}</span>,
+  // Cell: ({ row }) => <span className="font-bold ">${row.original.product.providerPrice.toFixed(2)}</span>,
   // },
 ])
 
@@ -237,7 +237,7 @@ const NewBuy: PageWithLayout = () => {
     {
       Header: 'Precio total',
       id: 'total',
-      Cell: ({ row }) => <span className="font-bold text-red-500">${(row.original.providerPrice * row.original.quantity).toFixed(2)}</span>,
+      Cell: ({ row }) => <span className="font-bold ">${(row.original.providerPrice * row.original.quantity).toFixed(2)}</span>,
     },
     {
       Header: 'Eliminar',
@@ -377,7 +377,7 @@ const NewBuy: PageWithLayout = () => {
               <>
                 <Table columns={columns} data={details} />
                 <div className="flex space-x-6 w-full justify-end">
-                  <p>Total: <span className="font-bold text-red-500">${details.map(d => d.providerPrice * d.quantity).reduce((a, b) => a + b, 0).toFixed(2)}</span></p>
+                  <p>Total: <span className="font-bold ">${details.map(d => d.providerPrice * d.quantity).reduce((a, b) => a + b, 0).toFixed(2)}</span></p>
                 </div>
                 <Button className="self-end" onClick={create}>Registrar</Button>
               </>

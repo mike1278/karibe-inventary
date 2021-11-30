@@ -28,7 +28,7 @@ const getColumns = (): TableColumn<Buy>[] => ([
   {
     Header: 'Total invertido',
     accessor: 'priceTotal',
-    Cell: ({ value }) => <span className="font-bold text-red-500">${value.toFixed(2)}</span>,
+    Cell: ({ value }) => <span className="font-bold ">${value.toFixed(2)}</span>,
   },
   {
     Header: 'Registrado por',

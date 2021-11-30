@@ -40,13 +40,13 @@ export const getProductColumns = (): TableColumn<Product>[] => ([
   {
     Header: 'Precio de venta',
     accessor: 'price',
-    Cell: ({ value }) => <span className="font-bold text-green-500">${value.toFixed(2)}</span>,
+    Cell: ({ value }) => <span className="font-bold ">${value.toFixed(2)}</span>,
   },
   {
 
     Header: 'Costo neto',
     accessor: 'providerPrice',
-    Cell: ({ value }) => <span className="font-bold text-green-500">${value.toFixed(2)}</span>,
+    Cell: ({ value }) => <span className="font-bold ">${value.toFixed(2)}</span>,
   },
   {
     Header: 'Categoría',

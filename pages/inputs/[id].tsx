@@ -56,7 +56,7 @@ const getColumns = (): TableColumn<BuyDetail>[] => ([
   {
     Header: 'Precio de venta',
     id: 'price',
-    Cell: ({ row }) => <span className="font-bold text-red-500">${row.original.product.providerPrice.toFixed(2)}</span>,
+    Cell: ({ row }) => <span className="font-bold ">${row.original.product.providerPrice.toFixed(2)}</span>,
   },
   {
     Header: 'Cantidad',
@@ -65,7 +65,7 @@ const getColumns = (): TableColumn<BuyDetail>[] => ([
   {
     Header: 'Precio total',
     id: 'total',
-    Cell: ({ row }) => <span className="font-bold text-red-500">${(row.original.product.providerPrice * row.original.quantity).toFixed(2)}</span>,
+    Cell: ({ row }) => <span className="font-bold ">${(row.original.product.providerPrice * row.original.quantity).toFixed(2)}</span>,
   },
 ])
 
@@ -111,7 +111,7 @@ const Buy: PageWithLayout = () => {
               </div>
               <Table columns={columns} data={data.details} />
               <div className="flex space-x-6 w-full justify-end">
-                <p>Total: <span className="font-bold text-red-500">${data.priceTotal.toFixed(2)}</span></p>
+                <p>Total: <span className="font-bold ">${data.priceTotal.toFixed(2)}</span></p>
               </div>
               <Button className="self-end print:hidden" onClick={() => printElement(wrapperRef.current)} icon={<Printer24 />}>Exportar documento</Button>
             </div>
