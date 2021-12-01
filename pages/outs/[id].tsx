@@ -104,8 +104,11 @@ const Sell: PageWithLayout = () => {
     <div className="py-4 c-lg">
       <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
         <div className="flex flex-col space-y-6" ref={wrapperRef}>
-          <div className="mx-auto hidden print:flex">
-            <Image src={Logo} width={190} height={94} objectFit="contain" loading="eager" />
+          <div className="hidden print:flex flex-col">
+            <div className="w-[190px]">
+              <Image src={Logo} width={190} height={94} className="mr-auto" objectFit="contain" loading="eager" />
+            </div>
+            <p className="mt-4"><span className="font-bold">RIF:</span> J-50031533-3</p>
           </div>
           <div className="bg-bg-secondary flex shadow mb-4 py-2 px-3 items-center print:shadow-none sm:mb-0">
             <h2 className="font-bold leading-normal text-2xl">
