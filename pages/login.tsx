@@ -11,6 +11,7 @@ import { useInput } from '@/lib/hooks'
 import { Button } from '@/components/button'
 import Image from 'next/image'
 import Logo from '@/public/venita.png'
+import ImageLogin from '@/public/login.jpg'
 import { useDarkMode } from '@/lib/dark-mode'
 
 export const getServerSideProps: GetServerSideProps<LoginProps> = async (context) => {
@@ -63,11 +64,11 @@ const LoginBox = (data: LoginProps) => {
 
   return (
     <Viewport
-      className="flex h-full mt-6 w-full items-center justify-center"
+      className="flex mt-6 w-full px-2"
       style={setAnim({ y: '0.3rem' })}
       once
     >
-      <div className="bg-bg-secondary rounded-xl shadow-lg p-4 animate">
+      <div className="w-full animate">
         <Viewport
           className="flex flex-col"
           style={setAnim({ y: '0.3rem' })}
@@ -82,7 +83,7 @@ const LoginBox = (data: LoginProps) => {
               <input
                 type="text"
                 required
-                className="w-full input sm:w-64"
+                className="w-full input"
                 id="email-signin"
                 placeholder="Ej. johndoe@gmail.com"
                 name="email"
@@ -97,7 +98,7 @@ const LoginBox = (data: LoginProps) => {
                 required
                 minLength={6}
                 maxLength={12}
-                className="w-full input sm:w-64"
+                className="w-full input"
                 id="pwd-signin"
                 placeholder="Escriba su contraseña"
                 name="password"
@@ -129,18 +130,26 @@ const LoginBox = (data: LoginProps) => {
 
 const Login: PageWithLayout = (data: LoginProps) => {
   const [isDarkMode] = useDarkMode()
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => {
+    setMounted(true)
+  }, [])
   return (
-    <div className="flex flex-col h-full mx-auto w-full py-16 px-6 lg:w-[50%]">
-      <Viewport className="animate" once style={setAnim({ y: '0.3rem' })}>
-        <div className="font-title mr-auto mt-2 text-fg-primary mb-10 leading-normal select-none t-h2" style={{ willChange: 'filter', filter: isDarkMode ? 'brightness(0) invert(1)' : 'unset' }}>
-          <Image src={Logo} width={190} height={95} objectFit="contain" />
+    <div className="flex h-full w-full">
+      <Viewport className="bg-bg-secondary flex flex-col w-full px-3 animate justify-center items-center md:w-1/2 lg:w-1/4" once style={setAnim({ y: '0.3rem' })}>
+        <div 
+          className="font-title mt-2 text-fg-primary leading-normal select-none t-h2" 
+          style={{ willChange: 'filter', filter: isDarkMode && mounted ? 'brightness(0) invert(1)' : 'unset' }}
+        >
+          <Image src={Logo} className="w-32" objectFit="contain" />
         </div>
-        <div className="flex space-x-4 items-center">
+        <div className="flex justify-center items-center">
           <Account24 />
           <h2 className="leading-none text-2xl">Iniciar sesión</h2>
         </div>
         <LoginBox />
       </Viewport>
+      <div className="bg-login bg-no-repeat bg-cover bg-right hidden md:w-1/2 md:block lg:w-3/4" />
     </div>
   )
 }

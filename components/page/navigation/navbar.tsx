@@ -14,11 +14,17 @@ import dynamic from 'next/dynamic'
 import { useUser } from '@/models/auth/user'
 import { signOut } from 'next-auth/client'
 import { useRouter } from 'next/router'
+import { Notification16, UserAvatar16, NotificationOff16, Help16 } from '@carbon/icons-react'
 import Image from 'next/image'
 import Logo from '@/public/venita.png'
+import useSWR from 'swr'
 
 const DarkModeSwitch = dynamic(import('react-toggle-dark-mode').then(m => m.DarkModeSwitch), {
   ssr: false
+})
+
+export const useNotifications = () => useSWR<{ name: string, href: string }[]>('/api/notifications', {
+  refreshInterval: 5000,
 })
 
 export default function Navbar({ }: {
@@ -29,8 +35,15 @@ export default function Navbar({ }: {
   const toggleSidebar = () => (setSidebar(!sidebar))
   const globalData = useGlobalDataContext()
 
+  const router = useRouter()
+
+  const { data: notifications, mutate: mutateNotifications } = useNotifications()
+
+  useEffect(() => {
+    mutateNotifications()
+  }, [router])
+
   const [{ user }] = useUser()
-  const { push } = useRouter()
 
   const scrollHander = () => {
     setScrollY(window.scrollY)
@@ -74,9 +87,9 @@ export default function Navbar({ }: {
 
   return (
     <>
-      <header className={`${s.header} transform-gpu bg-white shadow ${(!sidebar && !isShowing) && '-translate-y-full pointer-events-none'}`}>
+      <header className={`${s.header} transform-gpu bg-bg-primary shadow ${(!sidebar && !isShowing) && '-translate-y-full pointer-events-none'}`}>
         <Sidebar open={sidebar} toggle={toggleSidebar} />
-        <div className={`flex items-center h-full bg-white w-full border-b ${scrollY > 0 ? 'border-x-gray-200' : 'border-transparent'}`}>
+        <div className={`flex items-center h-full bg-bg-secondary w-full border-b ${scrollY > 0 ? 'border-x-gray-200' : 'border-transparent'}`}>
           <div className={`${s.headerWrapper} c-lg`}>
             <div className="flex overflow-hidden pointer-events-auto items-center">
               <Link title="Home" className="font-bold font-title transform duration-200 hover:scale-95" href="/" style={{ willChange: 'transform', filter: isDarkMode ? 'brightness(0) invert(1)' : 'unset' }}>
@@ -105,7 +118,26 @@ export default function Navbar({ }: {
               </div>
               {user && (
                 <>
-                  <div className="text-sm lg:mr-4">
+                  <div className="text-sm mr-4">
+                    <CustomDropdown titulo={`Ayuda`} links={[
+                      {
+                        titulo: 'Ver manual de usuario',
+                        href: '/manual.pdf',
+                        target: '_blank'
+                      },
+                    ]}>
+                      <div
+                        className="cursor-pointer"
+                      >
+                        <div className="border-transparent flex border-b-[3px] -mt-[3px] items-center">
+                          <div className="bg-bg-primary border rounded-full border-gray-400 shadow-sm p-2">
+                            <Help16 className="h-5 w-5" />
+                          </div>
+                        </div>
+                      </div>
+                    </CustomDropdown>
+                  </div>
+                  <div className="text-sm mr-4">
                     <CustomDropdown titulo={`Hola, ${user?.name?.split(' ').slice(0, 2).join(' ')}`} links={[
                       ...(user?.role === 'ADMIN' ? [
                         {
@@ -124,13 +156,40 @@ export default function Navbar({ }: {
                       }
                     ]}>
                       <div
-                        className="cursor-pointer overflow-hidden"
+                        className="cursor-pointer"
                       >
-                        <div className="h-[30px] flex items-center" >
-                          { user?.name }
-                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-                          </svg>
+                        <div className="border-transparent flex border-b-[3px] -mt-[3px] items-center">
+                          <div className="bg-bg-primary border rounded-full border-gray-400 shadow-sm p-2">
+                            <UserAvatar16 className="h-5 w-5" />
+                          </div>
+                          <div className="font-bold ml-2 hidden sm:block">
+                            {user?.name}
+                          </div>
+                        </div>
+                      </div>
+                    </CustomDropdown>
+                  </div>
+                  <div className="text-sm" style={{
+                    pointerEvents: notifications?.length ? 'auto' : 'none'
+                  }}>
+                    <CustomDropdown titulo="Notificaciones" links={notifications?.length ? notifications.map(n => ({ ...n, titulo: n.name })) : []}>
+                      <div
+                        className="cursor-pointer relative"
+                      >
+                        {notifications?.length ? (
+                          <>
+                            <div className="rounded-full bg-red-500 h-2 shadow-lg top-0 right-0 animate-ping w-2 absolute" />
+                            <div className="rounded-full bg-red-500 h-2 shadow-lg top-0 right-0 w-2 absolute" />
+                          </>
+                        ) : (
+                          <div className="rounded-full bg-x-gray-400 h-2 shadow-lg top-0 right-0 w-2 absolute" />
+                        )}
+                        <div className="border-transparent flex font-bold border-b-[3px] -mt-[3px] items-center">
+                          {notifications?.length ? (
+                            <Notification16 className="h-5 w-5"  />
+                          ) : (
+                            <NotificationOff16 className="h-5 w-5" />
+                          )}
                         </div>
                       </div>
                     </CustomDropdown>

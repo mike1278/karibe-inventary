@@ -107,3 +107,24 @@ input[type="color"]::-webkit-color-swatch-wrapper {
 .t-h3 {
 	font-size: 1.33rem;
 }
+
+@keyframes jello {
+	0% {
+		transform: rotate(0deg);
+	}
+	25% {
+		transform: rotate(-24deg);
+	}
+	50% {
+		transform: rotate(24deg);
+	}
+	75% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(0deg);
+	}
+}
+.animate-jello {
+	animation: jello 2s ease infinite;
+}

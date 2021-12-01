@@ -2,15 +2,15 @@ import Link from '@/components/canonical-link'
 import { PageWithLayout, useOptionsDrawer } from '@/components/page'
 import Table, { TableColumn } from '@/components/table'
 import Viewport, { setAnim } from '@/components/viewport'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import useSWR from 'swr'
 import { Buy as DBBuy, Product as DBPRoduct, ProductCategory, User } from '@prisma/client'
 import { Edit24, UserFollow24, ChevronLeft16, ChevronRight16, Close24 } from '@carbon/icons-react'
 import { Button } from '@/components/button'
 import Loading from '@/components/loading'
-import { formatDate } from '@/lib/utils/client'
 import { getProductColumns } from '../products'
 import { useRouter } from 'next/router'
+import { useNotifications } from '@/components/page/navigation/navbar'
 
 type Buy = DBBuy & {
   user: User
@@ -61,7 +61,7 @@ const getColumns = (): TableColumn<BuyDetail>[] => ([
   // {
   // Header: 'Precio de venta',
   // id: 'price',
-  // Cell: ({ row }) => <span className="font-bold text-red-500">${row.original.product.providerPrice.toFixed(2)}</span>,
+  // Cell: ({ row }) => <span className="font-bold ">${row.original.product.providerPrice.toFixed(2)}</span>,
   // },
 ])
 
@@ -79,6 +79,28 @@ const NewBuy: PageWithLayout = () => {
   const [mode, setMode] = useState(false)
 
   const router = useRouter()
+
+  const { query } = router
+
+  useEffect(() => {
+    if (query.product) {
+      fetch(`/api/products/${query.product}`)
+        .then(res => res.json())
+        .then(({ product }: { product: Product }) => {
+          if (product) {
+            setDetails([
+              {
+                product: product,
+                providerPrice: product.providerPrice,
+                price: product.price,
+                quantity: product.max - Math.max(0, product.stock)
+              },
+              ...details,
+            ])
+          }
+        })
+    }
+  }, [query])
 
   const create = async () => {
     if (!details.length) {
@@ -192,7 +214,20 @@ const NewBuy: PageWithLayout = () => {
     {
       Header: 'En stock',
       id: 'stock',
-      Cell: ({ row }) => Math.max(0, row.original.product.stock),
+      Cell: ({ row }) => {
+        const warn = row.original.product.stock <= row.original.product.min
+        return row.original.stock >= 0 ? (
+          <span className={warn ? 'text-red-500' : ''}>
+            {Math.max(0, row.original.product.stock)} {warn ? '(En agotamiento)' : ''}
+          </span>
+        ) : (
+          <span
+            className={`rounded-full mx-auto bg-fg-primary shadow-sm text-bg-secondary text-xs p-2`}
+          >
+            Nuevo
+          </span>
+        )
+      }
     },
     // {
     //   Header: 'Restante en stock',
@@ -202,7 +237,7 @@ const NewBuy: PageWithLayout = () => {
     {
       Header: 'Precio total',
       id: 'total',
-      Cell: ({ row }) => <span className="font-bold text-red-500">${(row.original.providerPrice * row.original.quantity).toFixed(2)}</span>,
+      Cell: ({ row }) => <span className="font-bold ">${(row.original.providerPrice * row.original.quantity).toFixed(2)}</span>,
     },
     {
       Header: 'Eliminar',
@@ -257,36 +292,36 @@ const NewBuy: PageWithLayout = () => {
         {mode ? (
           data ? (
             <button
-              className="hover:underline px-3 py-2 bg-white border border-gray-100 shadow flex items-center"
+              className="bg-bg-secondary border flex border-gray-100 shadow py-2 px-3 items-center hover:underline"
               onClick={() => {
                 setMode(false)
               }}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 mr-2 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
               Ir hacia atrás
             </button>
           ) : <> </>
-        ) : 
-        <Link href="/inputs" className="hover:underline px-3 py-2 bg-white border border-gray-100 shadow flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-          Ir a entradas
-        </Link> }
+        ) :
+          <Link href="/inputs" className="bg-bg-secondary border flex border-gray-100 shadow py-2 px-3 items-center hover:underline">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 mr-2 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Ir a entradas
+          </Link>}
       </div>
       <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
         <div className="flex flex-col space-y-6">
-          <div className="flex mb-4 justify-between bg-white px-3 py-2 shadow items-center sm:mb-0">
-            <h2 className="font-bold leading-normal text-xl text-gray-700">
+          <div className="bg-bg-secondary flex flex-col shadow mb-4 py-2 px-3 justify-center items-center sm:mb-0 md:flex-row md:justify-between">
+            <h2 className="font-bold text-xl leading-normal mb-2 text-gray-700 md:mb-0">
               Registrar una nueva entrada
             </h2>
             {mode ? (
               data ? (
                 <> </>
               ) : <> </>
-            ) : <Button className="self-end" icon={<UserFollow24 />} onClick={() => setMode(true)}>Agregar producto</Button>}
+            ) : <Button icon={<UserFollow24 />} onClick={() => setMode(true)}>Agregar producto</Button>}
           </div>
 
           <div className="flex flex-col mx-auto space-y-6 w-full pb-16">
@@ -294,7 +329,7 @@ const NewBuy: PageWithLayout = () => {
               data ? (
                 <>
                   <Table columns={productColumns} data={data?.products || []} />
-                  <div className="flex flex-col space-y-6 w-full justify-between items-center bg-white px-3 py-2 sm:flex-row sm:space-y-0">
+                  <div className="bg-bg-secondary flex flex-col space-y-6 w-full py-2 px-3 justify-between items-center sm:flex-row sm:space-y-0">
                     <div className="flex space-x-6">
                       <p>Viendo
                         <span className="px-2">
@@ -342,7 +377,7 @@ const NewBuy: PageWithLayout = () => {
               <>
                 <Table columns={columns} data={details} />
                 <div className="flex space-x-6 w-full justify-end">
-                  <p>Total: <span className="font-bold text-red-500">${details.map(d => d.providerPrice * d.quantity).reduce((a, b) => a + b, 0).toFixed(2)}</span></p>
+                  <p>Total: <span className="font-bold ">${details.map(d => d.providerPrice * d.quantity).reduce((a, b) => a + b, 0).toFixed(2)}</span></p>
                 </div>
                 <Button className="self-end" onClick={create}>Registrar</Button>
               </>

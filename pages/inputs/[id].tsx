@@ -7,8 +7,10 @@ import useSWR from 'swr'
 import { Buy as DBBuy, Product as DBPRoduct, BuyDetail as DBBuyDetail, ProductCategory, User } from '@prisma/client'
 import { Printer24 } from '@carbon/icons-react'
 import { Button } from '@/components/button'
-import { formatDate, printElement } from '@/lib/utils/client'
+import { printElement } from '@/lib/utils/client'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
+import Logo from '@/public/venita.png'
 
 type Product = DBPRoduct & {
   category: ProductCategory
@@ -54,7 +56,7 @@ const getColumns = (): TableColumn<BuyDetail>[] => ([
   {
     Header: 'Precio de venta',
     id: 'price',
-    Cell: ({ row }) => <span className="font-bold text-red-500">${row.original.product.providerPrice.toFixed(2)}</span>,
+    Cell: ({ row }) => <span className="font-bold ">${row.original.product.providerPrice.toFixed(2)}</span>,
   },
   {
     Header: 'Cantidad',
@@ -63,7 +65,7 @@ const getColumns = (): TableColumn<BuyDetail>[] => ([
   {
     Header: 'Precio total',
     id: 'total',
-    Cell: ({ row }) => <span className="font-bold text-red-500">${(row.original.product.providerPrice * row.original.quantity).toFixed(2)}</span>,
+    Cell: ({ row }) => <span className="font-bold ">${(row.original.product.providerPrice * row.original.quantity).toFixed(2)}</span>,
   },
 ])
 
@@ -87,8 +89,14 @@ const Buy: PageWithLayout = () => {
   return (
     <div className="py-4 c-lg">
       <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
-        <div className="flex flex-col space-y-6">
-          <div className="flex mb-4 items-center sm:mb-0 bg-white px-3 py-2 shadow">
+        <div className="flex flex-col space-y-6" ref={wrapperRef}>
+          <div className="hidden print:flex flex-col">
+            <div className="w-[190px]">
+              <Image src={Logo} width={190} height={94} className="mr-auto" objectFit="contain" loading="eager" />
+            </div>
+            <p className="mt-4"><span className="font-bold">RIF:</span> J-50031533-3</p>
+          </div>
+          <div className="bg-bg-secondary flex shadow mb-4 py-2 px-3 items-center print:shadow-none sm:mb-0">
             <h2 className="font-bold leading-normal text-2xl">
               Detalles de entrada
             </h2>
@@ -99,14 +107,14 @@ const Buy: PageWithLayout = () => {
           `}</style>
 
           {data ? (
-            <div className="flex flex-col mx-auto space-y-6 w-full pb-16" ref={wrapperRef}>
-              <div className="flex print:flex-col print:space-y-6 print:space-x-0 sm:space-x-6 bg-white px-3 py-2 shadow">
+            <div className="flex flex-col mx-auto space-y-6 w-full pb-16">
+              <div className="bg-bg-secondary flex shadow py-2 px-3 print:flex-col print:space-y-6 print:space-x-0 print:shadow-none sm:space-x-6">
                 <p><span className="font-bold">Operador:</span> {data.user.name}</p>
-                <p><span className="font-bold">Registrado el:</span> {formatDate(data.createdAt)}</p>
+                <p><span className="font-bold">Registrado el:</span> {new Date(data.createdAt).toLocaleString()}</p>
               </div>
               <Table columns={columns} data={data.details} />
               <div className="flex space-x-6 w-full justify-end">
-                <p>Total: <span className="font-bold text-red-500">${data.priceTotal.toFixed(2)}</span></p>
+                <p>Total: <span className="font-bold ">${data.priceTotal.toFixed(2)}</span></p>
               </div>
               <Button className="self-end print:hidden" onClick={() => printElement(wrapperRef.current)} icon={<Printer24 />}>Exportar documento</Button>
             </div>

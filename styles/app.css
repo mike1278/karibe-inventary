@@ -1,3 +1,23 @@
 @import './app-base.css';
 @import './app-components.css';
 @import './app-utilities.css';
+
+* {
+    -webkit-print-color-adjust: exact !important;   /* Chrome, Safari, Edge */
+    color-adjust: exact !important;                 /*Firefox*/
+}
+
+.bg-login {
+    background-image: url('/login.jpg');
+}
+
+.image_print {
+    background-image: url('/venita.png');
+    display: none;
+}
+
+@media print {
+    .image_print {
+        display: block;
+    }
+}

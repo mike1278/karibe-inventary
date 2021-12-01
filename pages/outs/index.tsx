@@ -37,7 +37,7 @@ const getColumns = (): TableColumn<Sell>[] => ([
   {
     Header: 'Ganancia total',
     accessor: 'priceTotal',
-    Cell: ({ value }) => <span className="font-bold text-green-500">${value.toFixed(2)}</span>,
+    Cell: ({ value }) => <span className="font-bold ">${value.toFixed(2)}</span>,
   },
   {
     Header: 'Registrado por',
@@ -47,7 +47,7 @@ const getColumns = (): TableColumn<Sell>[] => ([
   {
     Header: 'Registrada el',
     accessor: 'createdAt',
-    Cell: ({ value }) => formatDate(value),
+    Cell: ({ value }) => new Date(value).toLocaleString(),
   },
 ])
 
@@ -79,18 +79,18 @@ const Products: PageWithLayout = () => {
     <div className="py-4 c-lg">
       <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
         <div className="flex flex-col space-y-6">
-          <div className="flex mb-4 items-center justify-between sm:mb-0 bg-white shadow px-3 py-2">
-            <h2 className="font-bold leading-normal text-2xl">
+          <div className="bg-bg-secondary flex flex-col shadow mb-4 py-2 px-3 items-center justify-center sm:mb-0 md:flex-row md:justify-between">
+            <h2 className="font-bold leading-normal mb-2 text-2xl md:mb-0">
               Salidas
             </h2>
-            <Button href="/outs/new" className="self-end" icon={<UserFollow24 />}>Registrar salida</Button>
+            <Button href="/outs/new" icon={<UserFollow24 />}>Registrar salida</Button>
           </div>
 
           <div className="flex flex-col mx-auto space-y-6 w-full pb-16">
             {(data !== undefined && columns) ? (
               <>
                 <Table columns={columns} data={data?.sells || []} />
-                <div className="flex flex-col space-y-6 w-full justify-between items-center sm:flex-row sm:space-y-0 bg-white px-3 py-2 shadow">
+                <div className="bg-bg-secondary flex flex-col space-y-6 shadow w-full py-2 px-3 justify-between items-center sm:flex-row sm:space-y-0">
                   <div className="flex space-x-6">
                     <p>Viendo
                       <span className="px-2">

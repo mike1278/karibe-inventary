@@ -19,24 +19,6 @@ const getColumns = (): TableColumn<User>[] => ([
     accessor: 'id',
   },
   {
-    Header: 'Avatar',
-    accessor: 'image',
-    Cell: ({ row }) => (
-      <div className="flex mx-auto space-x-4 items-center">
-        {row.original.image ? (
-          <img
-            src={row.original.image}
-            width={42}
-            height={42}
-            className="border bg-gray-300 border-x-gray-600 rounded-[50%] h-[42px] w-[42px]"
-          />
-        ) : (
-          <div className="bg-gradient-to-br border from-green-400 to-purple-300 border-x-gray-600 rounded-[50%] h-[42px] w-[42px]" />
-        )}
-      </div>
-    )
-  },
-  {
     Header: 'Nombre',
     accessor: 'name',
   },
@@ -75,7 +57,7 @@ const getColumns = (): TableColumn<User>[] => ([
   {
     Header: 'Creado el',
     accessor: 'createdAt',
-    Cell: ({ value }) => formatDate(value),
+    Cell: ({ value }) => new Date(value).toLocaleString(),
   }
 ])
 
@@ -317,7 +299,7 @@ const Users: PageWithLayout = () => {
     <div className="py-4 c-lg">
       <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
         <div className="flex flex-col space-y-6">
-          <div className="flex mb-4 items-center sm:mb-0 justify-between bg-white px-3 py-2 shadow">
+          <div className="bg-bg-secondary flex shadow mb-4 py-2 px-3 items-center justify-between sm:mb-0">
             <h2 className="font-bold leading-normal text-2xl">
               Administración de usuarios
             </h2>
@@ -328,7 +310,7 @@ const Users: PageWithLayout = () => {
             {(data !== undefined && columns) ? (
               <>
                 <Table columns={columns} data={data?.users || []} />
-                <div className="flex flex-col space-y-6 w-full bg-white px-3 py-2 shadow justify-between items-center sm:flex-row sm:space-y-0">
+                <div className="bg-bg-secondary flex flex-col space-y-6 shadow w-full py-2 px-3 justify-between items-center sm:flex-row sm:space-y-0">
                   <div className="flex space-x-6">
                     <p>Viendo
                       <span className="px-2">
@@ -345,7 +327,7 @@ const Users: PageWithLayout = () => {
                       </span> registros por página</p>
                   </div>
                   <div className="flex space-x-6">
-                    <button className="disabled:opacity-50 disabled:cursor-not-allowed" onClick={() => setPage(page - 1)} disabled={page == 1}>
+                    <button className="disabled:cursor-not-allowed disabled:opacity-50" onClick={() => setPage(page - 1)} disabled={page == 1}>
                       <ChevronLeft16 />
                     </button>
                     <p>Página
@@ -361,7 +343,7 @@ const Users: PageWithLayout = () => {
                           ))}
                         </select>
                       </span> de {data.maxPages || 1}</p>
-                    <button className="disabled:opacity-50 disabled:cursor-not-allowed" onClick={() => setPage(page + 1)} disabled={page == data.maxPages || !data.maxPages}>
+                    <button className="disabled:cursor-not-allowed disabled:opacity-50" onClick={() => setPage(page + 1)} disabled={page == data.maxPages || !data.maxPages}>
                       <ChevronRight16 />
                     </button>
                   </div>

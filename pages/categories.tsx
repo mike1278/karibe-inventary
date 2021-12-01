@@ -48,7 +48,7 @@ const getColumns = (): TableColumn<ProductCategory>[] => ([
   {
     Header: 'Creado el',
     accessor: 'createdAt',
-    Cell: ({ value }) => formatDate(value),
+    Cell: ({ value }) => new Date(value).toLocaleString(),
   }
 ])
 
@@ -203,7 +203,7 @@ const ProductCategories: PageWithLayout = () => {
     <div className="py-4 c-lg">
       <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
         <div className="flex flex-col space-y-6">
-          <div className="flex mb-4 bg-white shadow px-3 py-2 justify-between items-center sm:mb-0">
+          <div className="bg-bg-secondary flex shadow mb-4 py-2 px-3 justify-between items-center sm:mb-0">
             <h2 className="font-bold leading-normal text-gray-700 text-2xl">
               Categorías de productos
             </h2>
@@ -222,7 +222,7 @@ const ProductCategories: PageWithLayout = () => {
             {(data !== undefined && columns) ? (
               <>
                 <Table columns={columns} data={data?.categories || []} />
-                <div className="flex flex-col space-y-6 w-full justify-between items-center sm:flex-row sm:space-y-0 bg-white px-3 py-2 shadow">
+                <div className="bg-bg-secondary flex flex-col space-y-6 shadow w-full py-2 px-3 justify-between items-center sm:flex-row sm:space-y-0">
                   <div className="flex space-x-6">
                     <p>Viendo
                       <span className="px-2">
