@@ -346,27 +346,22 @@ const Products: PageWithLayout = () => {
 
   return (
     <div className="py-4 c-lg">
-      <div className="flex text-xs w-full pb-6 uppercase">
-        <Link href="/" className="hover:underline">
-          Ir al dashboard
-        </Link>
-      </div>
       <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
         <div className="flex flex-col space-y-6">
-          <div className="flex mb-4 items-center sm:mb-0">
+          <div className="flex mb-4 justify-between bg-white px-3 py-2 shadow items-center sm:mb-0">
             <h2 className="font-bold leading-normal text-2xl">
               Productos
             </h2>
+            {session.user.role === 'ADMIN' ? (
+              <Button className="self-end" icon={<UserFollow24 />} onClick={create}>Agregar producto</Button>
+            ) : null}
           </div>
 
-          <div className="flex flex-col mx-auto space-y-6 w-full pb-16 lg:w-9/10">
+          <div className="flex flex-col mx-auto space-y-6 w-full pb-16">
             {(data !== undefined && columns) ? (
               <>
-                {session.user.role === 'ADMIN' ? (
-                  <Button className="self-end" icon={<UserFollow24 />} onClick={create}>Agregar producto</Button>
-                ) : null}
                 <Table columns={columns} data={data?.products || []} />
-                <div className="flex flex-col space-y-6 w-full justify-between items-center sm:flex-row sm:space-y-0">
+                <div className="flex flex-col space-y-6 w-full justify-between items-center sm:flex-row sm:space-y-0 bg-white px-3 py-2 shadow">
                   <div className="flex space-x-6">
                     <p>Viendo
                       <span className="px-2">

@@ -58,8 +58,10 @@ const ProductReports: PageWithLayout = () => {
   return (
     <div className="py-4 c-lg">
       <div className="flex text-xs w-full pb-6 uppercase">
-        <Link href="/products" className="hover:underline">
-          Ir a productos
+        <Link href="/products" className="hover:underline px-3 py-2 bg-white border border-gray-100 shadow flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
         </Link>
       </div>
 
@@ -72,13 +74,13 @@ const ProductReports: PageWithLayout = () => {
           <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
             <div className="flex flex-col space-y-6">
               <div className="flex flex-col space-y-2">
-                <div className="flex items-center sm:mb-0">
-                  <h2 className="font-bold leading-normal text-2xl">
+                <div className="flex items-center sm:mb-0 bg-white px-3 py-2 shadow">
+                  <h2 className="font-bold leading-normal text-xl text-gray-700">
                     {data.product.name}
                   </h2>
                 </div>
 
-                <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
+                <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 bg-white px-3 py-2 shadow">
                   <fieldset className="flex flex-col w-full animate" style={setAnim({ d: '100ms' })}>
                     <label htmlFor="init" className="input-label">Fecha de inicio</label>
                     <input
@@ -111,7 +113,7 @@ const ProductReports: PageWithLayout = () => {
                 </div>
               </div>
 
-              <div className="mx-auto w-full auto-rows-auto grid gap-6 grid-cols-1 sm:grid-cols-4 lg:w-9/10">
+              <div className="mx-auto w-full auto-rows-auto grid gap-6 grid-cols-1 sm:grid-cols-4">
                 <div className="flex flex-col space-y-2 text-right w-full card">
                   <h4 className="font-bold text-lg">Unidades vendidas:</h4>
                   <p className="font-bold text-4xl">~{data.sellDetails.map(p => p.quantity).reduce((a, b) => a + b, 0)}</p>

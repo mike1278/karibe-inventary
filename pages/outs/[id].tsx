@@ -100,14 +100,9 @@ const Sell: PageWithLayout = () => {
 
   return (
     <div className="py-4 c-lg">
-      <div className="flex text-xs w-full pb-6 uppercase">
-        <Link href="/" className="hover:underline">
-          Ir al dashboard
-        </Link>
-      </div>
       <Viewport className="w-full animate" once style={setAnim({ y: '-0.3rem' })}>
         <div className="flex flex-col space-y-6">
-          <div className="flex mb-4 items-center sm:mb-0">
+          <div className="flex mb-4 items-center sm:mb-0 bg-white px-3 py-2 shadow">
             <h2 className="font-bold leading-normal text-2xl">
               Detalles de salida
             </h2>
@@ -118,14 +113,14 @@ const Sell: PageWithLayout = () => {
           `}</style>
 
           {data ? (
-            <div className="flex flex-col mx-auto space-y-6 w-full pb-16 lg:w-9/10" ref={wrapperRef}>
-              <div className="flex print:flex-col print:space-y-6 print:space-x-0 sm:space-x-6">
-                <p><span className="font-bold">Operador:</span> {data.user.name}</p>
-                <p><span className="font-bold">Registrado el:</span> {formatDate(data.createdAt)}</p>
-              </div>
-              <div className="flex print:flex-col print:space-y-6 print:space-x-0 sm:space-x-6">
-                <p><span className="font-bold">Documento del cliente:</span> {data.client.dni}</p>
-                <p><span className="font-bold">Nombre del cliente:</span> {data.client.name}</p>
+            <div className="flex flex-col mx-auto space-y-6 w-full pb-16" ref={wrapperRef}>
+              <div className="bg-white px-3 py-2 shadow">
+                <div className="flex print:flex-col print:space-y-4 print:space-x-0 sm:space-x-4">
+                  <p><span className="font-bold">Operador:</span> {data.user.name}</p>
+                  <p><span className="font-bold">Registrado el:</span> {formatDate(data.createdAt)}</p>
+                  <p><span className="font-bold">Documento del cliente:</span> {data.client.dni}</p>
+                  <p><span className="font-bold">Nombre del cliente:</span> {data.client.name}</p>
+                </div>
               </div>
               <Table columns={columns} data={data.details} />
               <div className="flex space-x-6 w-full justify-end">
